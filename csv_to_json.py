@@ -17,9 +17,20 @@ app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def index():
     intro = "<h1>Welcome to the CSV data API!</h1>"
-    intro = intro + "<p>The URL structure for accessing the data is as follows:<br>"
-    intro = intro + "/file_name/file_type/group_by/colnames/filter_col/filter_val/limit<br>"
-    intro = intro + "Only the file_name, file_type and group_by fields are mandatory.<br>All other fields can be set to 'blank'.</p>"
+    intro = intro + "<p>The parameters that can be passed in the URL are as follows:<br><ul>"
+    intro = intro + "<li>file_name - The name of the file (minus file type).</li>"
+    intro = intro + "<li>file_type - The file extemsion (only csv is currently handled).</li>"
+    intro = intro + "<li>group_by - [Optional] The number of levels to nest. Will assume columns are in correct order.</li>"
+    intro = intro + "<li>colnames - [Optional] A comma seperated list of columns to nest by. Will override group_by if provided.</li>"
+    intro = intro + "<li>filter_col - [Optional] The name of a column to filter the dataset on.</li>"
+    intro = intro + "<li>filter_val - [Optional] The value to look for in filter_col.</li>"
+    intro = intro + "<li>limit - [Optional] Limit the output to this many rows. 0 by default.</li>"
+    intro = intro + "<li>root_node - [Optional] Name of the root node in the JSON. Default is 'data'.</li>"
+    intro = intro + "<li>name_field - [Optional] The name of the key that stores the nested value at each level. Default is 'name'.</li>"
+    intro = intro + "<li>sum_field - [Optional] The column to sum at each level.</li>"
+    intro = intro + "<li>avg_field - [Optional] The column to average at each level.</li>"
+                        
+    intro = intro + "</ul>Only the file_name and file_type fields are mandatory.</p>"
     return intro
 
 @app.route('/data', methods=['GET'])

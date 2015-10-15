@@ -1,4 +1,2 @@
-pymongo==2.8
 Flask==0.10.1
-Flask-PyMongo==0.3.0
 pandas==0.16.2

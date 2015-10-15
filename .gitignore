@@ -1,1 +1,3 @@
-run.pyc
+*.pyc
+app.wsgi
+venv

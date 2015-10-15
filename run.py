@@ -3,11 +3,12 @@ import pandas as pd
 import argparse
 import json
 from flask import Flask, jsonify, request
+import os
 
-# Example URLs: 
-# http://localhost:5050/data?file_name=procurement_data&file_type=csv&group_by=2&root_node=Procurement%20Data&sum_field=value&avg_field=overun_%&limit=10
-# http://localhost:5050/data?file_name=procurement_data&file_type=csv&group_by=2&Data&limit=10&filter_col=Year%filter_val=2014
-# http://localhost:5050/data?file_name=procurement_data&file_type=csv&Data&limit=100&colnames=Fund%20Source,Municipality,Year
+# Example query strings: 
+# ?file_name=procurement_data&file_type=csv&group_by=2&root_node=Procurement%20Data&sum_field=value&avg_field=overun_%&limit=10
+# ?file_name=procurement_data&file_type=csv&group_by=2&Data&limit=10&filter_col=Year%filter_val=2014
+# ?file_name=procurement_data&file_type=csv&Data&limit=100&colnames=Fund%20Source,Municipality,Year
 
 #-------------------------------------------
 # Routes
@@ -33,11 +34,11 @@ def index():
     intro = intro + "</ul>Only the file_name and file_type fields are mandatory.</p>"
     return intro
 
-@app.route('/data', methods=['GET'])
+@app.route('/output', methods=['GET'])
 def data():
     try:
         file_name = request.args.get('file_name')
-        file_type = request.args.get('file_type')
+        file_type = request.args.get('file_type', "csv")
         group_by = int(request.args.get('group_by', 0))
         colnames = request.args.get('colnames', None)
         filter_col = request.args.get('filter_col', None)
@@ -51,8 +52,12 @@ def data():
     
         # Initialize field names
         current_level = 1
-     
-        filepath = "data/" + file_name + "." + file_type
+        APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+        APP_STATIC = os.path.join(APP_ROOT, 'data')
+        file_n = file_name + "." + file_type
+        filepath = os.path.join(APP_STATIC, file_n)
+        
+        #filepath = "data/" + file_name + "." + file_type
     
         # Load in csv Dataset
         if file_type == "csv":
@@ -155,5 +160,14 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
 # Run the App
 #-------------------------------------------
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=5050)
+    
+    # Define the arguments.
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--host', default='0.0.0.0', help='Host to bind to: [%(default)s].')
+    parser.add_argument('--port', type=int, default=app.config['SERVER_PORT'], help='Port to listen to: [%(default)s].')
+    parser.add_argument('--debug', action='store_true', default=False, help='Debug mode: [%(default)s].')
+
+    # Parse arguemnts and run the app.
+    args = parser.parse_args()
+    app.run(debug=args.debug, host=args.host, port=args.port)
 

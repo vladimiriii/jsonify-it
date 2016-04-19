@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1>Welcome to the Open Data Kosovo CSV to JSON Converter</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<p>The parameters that can be passed in the URL are as follows:</p>
+			<ul>
+				<li>file_name - The name of the file (minus file type).</li>
+				<li>file_type - The file extemsion (only csv is currently handled).</li>
+				<li>group_by - [Optional] The number of levels to nest. Will assume columns are in correct order.</li>
+				<li>colnames - [Optional] A comma seperated list of columns to nest by. Will override group_by if provided.</li>
+				<li>filter_col - [Optional] The name of a column to filter the dataset on.</li>
+				<li>filter_val - [Optional] The value to look for in filter_col.</li>
+				<li>limit - [Optional] Limit the output to this many rows. 0 by default.</li>
+				<li>root_node - [Optional] Name of the root node in the JSON. Default is 'data'.</li>
+				<li>name_field - [Optional] The name of the key that stores the nested value at each level. Default is 'name'.</li>
+				<li>sum_field - [Optional] The column to sum at each level.</li>
+				<li>avg_field - [Optional] The column to average at each level.</li>
+			</ul>
+			<p>Please note - only the file_name and file_type fields are mandatory.</p>
+		</div>
+	</div>	
+</div>
+{% endblock %}

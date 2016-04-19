@@ -1,0 +1,13 @@
+#preview {
+	font-family: "consolas", "helvetica";
+	font-size: 8pt;
+}
+
+#finalOutput {
+	font-family: "consolas", "helvetica";
+	font-size: 8pt;
+}
+
+#updatePreview {
+	margin-top: 12px;
+}

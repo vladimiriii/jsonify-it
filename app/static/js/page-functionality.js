@@ -3,31 +3,89 @@ var buttonsForRefresh = ["indexCol", "groupBy", "sumField", "avgField"];
 var fieldLabels = ["csv_sep", "index_col", "base_structure", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 
 $(document).ready(function(){
+	
 	// Process Data Button
-    $('#process-data').click(function(){
-		var CSVData = processData();
+	$('#process-data').click(function(){
+		// Load the data
+		var CSVData = getData();
+		
+		// Detect separator char
+		detectSep(CSVData);
+		
+		// Process the data
+		processData(CSVData);
 	
 		// Populate dropdown lists
 		for(var i = 0; i < buttonsForRefresh.length; i++)
-		populateDropdowns(CSVData, buttonsForRefresh[i]);
+			populateDropdowns(CSVData, buttonsForRefresh[i]);
 		
-   		// Scroll Page Down	  
+		// Scroll Page Down	  
 		$('html, body').animate({scrollTop: $("#outputOptions").offset().top}, 1000);
 	}); 
 	
 	// Update Preview Button
-    $('#updatePreview').click(function(){
-		processData();
+	$('#updatePreview').click(function(){
+		// Load the data
+		var CSVData = getData();
+		
+		processData(CSVData);
 	});
 	
 	// Get Final Output Button
-    $('#convertData').click(function(){
+	$('#convertData').click(function(){
 		getFinalOutput();
 	});
-  });
+});
 
+/*-------------------------------------
+Get CSV data
+-------------------------------------*/
+function getData() {
+	// Get CSV data from window
+	var CSVData = document.getElementById('CSVinput').value;
+	
+	return CSVData;
+}
+  
+/*-------------------------------------
+Autodetect Separator
+-------------------------------------*/
+function detectSep(data) {
+	// Extract first row of data
+	var rows = data.split(/\n|\r/);
+	var firstRow = rows[0]
+
+	// Remove all normal chars
+	firstRow = firstRow.replace(/([^A-Za-z0-9"'])/, "");
+
+	// Find most common char left
+	var charCounts = {};
+	var maxChar = '';
+	for(var i = 0; i < firstRow.length; i++){
+    
+		var char = firstRow[i];
+	    if(!charCounts[char]){charCounts[char] = 0;};
+	    charCounts[char]++;
+	
+		// Update max key
+	    if(maxChar == '' || charCounts[char] > charCounts[maxChar]){
+	        maxChar = char;
+	    };
+	};
+	
+	console.log("The sep char is " + maxChar);
+	// Append value to field
+	$("#csvSep").val(maxChar);
+}
+
+
+/*-------------------------------------
+Process CSV data
+-------------------------------------*/
 function getRadioVal(form) {
+	
     var val;
+	
     // get list of radio buttons with specified name
     var listItems = document.getElementById(form);
 	var radios = listItems.getElementsByTagName('input');
@@ -39,17 +97,15 @@ function getRadioVal(form) {
             break; // and break out of for loop
         }
     }
+	
     return val; // return value of checked radio or undefined if none checked
 }
 
 /*-------------------------------------
 Process CSV data
 -------------------------------------*/
-function processData() {
+function processData(CSVData) {
 	$("#preview").empty();
-	
-	// Get CSV data from window
-	var CSVData = document.getElementById('CSVinput').value;
 	
 	// Get parameters
 	var csvSep = document.getElementById('csvSep').value;
@@ -65,11 +121,10 @@ function processData() {
 	var preview = true;
 	var file_or_input = "input";
 	
+	// Generate URL
 	var allFields = [csvSep, indexCol, baseStructure, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
-	
 	urlParams = "";
 	joinChar = "";
-	
 	for (var i in allFields) {
 		if (allFields[i]) {
 			urlParams = urlParams + fieldLabels[i] + "=" + allFields[i] + "&";
@@ -148,6 +203,8 @@ function populateDropdowns(data, button) {
 	    select.appendChild(li);	
 	}
 }
+
+
 
 
 /*-------------------------------------

@@ -53,10 +53,9 @@ Autodetect Separator
 function detectSep(data) {
 	// Extract first row of data
 	var rows = data.split(/\n|\r/);
-	var firstRow = rows[0]
-
+	var firstRow = rows[0];
 	// Remove all normal chars
-	firstRow = firstRow.replace(/([^A-Za-z0-9"'])/, "");
+	firstRow = firstRow.replace(/([A-Z]|[0-9]|\"|\'|\.|_)/ig, "");
 
 	// Find most common char left
 	var charCounts = {};
@@ -73,7 +72,6 @@ function detectSep(data) {
 	    };
 	};
 	
-	console.log("The sep char is " + maxChar);
 	// Append value to field
 	$("#csvSep").val(maxChar);
 }
@@ -137,7 +135,7 @@ function processData(CSVData) {
 	// Generate URL based on specified parameters
 	var url = window.location.href;
 	url = url + "output?" + urlParams
-	console.log(url)
+
 	// Post data to API
 	CSVDataJson = {data: CSVData}; 
 	
@@ -247,7 +245,6 @@ function getFinalOutput() {
 	// Generate URL based on specified parameters
 	var url = window.location.href;
 	url = url + "output?" + urlParams
-	console.log(url)
 	
 	// Post data to API
 	CSVDataJson = {data: CSVData}; 

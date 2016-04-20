@@ -1,6 +1,6 @@
 // Universal Values
 var buttonsForRefresh = ["indexCol", "groupBy", "sumField", "avgField"];
-var fieldLabels = ["csv_sep", "index_col", "base_structure", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
+var fieldLabels = ["csv_sep", "index_col", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 
 $(document).ready(function(){
 	
@@ -12,8 +12,12 @@ $(document).ready(function(){
 		// Detect separator char
 		detectSep(CSVData);
 		
+		// Get the parameters
+		var url = getParams();
+		
 		// Process the data
-		processData(CSVData);
+		var postTo = "#preview"
+		processData(CSVData, url, postTo);
 	
 		// Populate dropdown lists
 		for(var i = 0; i < buttonsForRefresh.length; i++)
@@ -23,13 +27,17 @@ $(document).ready(function(){
 		$('html, body').animate({scrollTop: $("#outputOptions").offset().top}, 1000);
 	}); 
 	
-	// Re-process Data Button
+	// Reprocess Data Button
 	$('#reprocessData').click(function(){
 		// Load the data
 		var CSVData = getData();
 		
+		// Get the parameters
+		var url = getParams();
+		
 		// Process the data
-		processData(CSVData);
+		var postTo = "#preview"
+		processData(CSVData, url, postTo);
 	
 		// Populate dropdown lists
 		for(var i = 0; i < buttonsForRefresh.length; i++)
@@ -41,8 +49,12 @@ $(document).ready(function(){
 		// Load the data
 		var CSVData = getData();
 		
+		// Get the parameters
+		var url = getParams();
+		
 		// Update Preview Window
-		processData(CSVData);
+		var postTo = "#preview"
+		processData(CSVData, url, postTo);
 
 	});
 	
@@ -51,8 +63,12 @@ $(document).ready(function(){
 		// Load the data
 		var CSVData = getData();
 		
+		// Get the parameters
+		var url = getParams();
+		
 		// Output Data to Final window
-		getFinalOutput(CSVData);
+		var postTo = "#finalOutput"
+		processData(CSVData, url, postTo);
 	});
 });
 
@@ -119,15 +135,15 @@ function getRadioVal(form) {
 }
 
 /*-------------------------------------
-Process CSV data
+Get parameters from the HTML form
 -------------------------------------*/
-function processData(CSVData) {
-	$("#preview").empty();
+function getParams() {
 	
 	// Get parameters
 	var csvSep = document.getElementById('csvSep').value;
 	var indexCol = getRadioVal('indexCol');
 	var baseStructure = getRadioVal('baseStr');
+	var wrapperSel = getRadioVal('wrapperSel');
 	var groupBy = getRadioVal('groupBy');
 	var rootNode = document.getElementById('root-node').value;
 	var ChildField = document.getElementById('nest-key').value;
@@ -139,7 +155,7 @@ function processData(CSVData) {
 	var file_or_input = "input";
 	
 	// Generate URL
-	var allFields = [csvSep, indexCol, baseStructure, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+	var allFields = [csvSep, indexCol, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
 	urlParams = "";
 	joinChar = "";
 	for (var i in allFields) {
@@ -153,25 +169,10 @@ function processData(CSVData) {
 	
 	// Generate URL based on specified parameters
 	var url = window.location.href;
-	url = url + "output?" + urlParams
-
-	// Post data to API
-	CSVDataJson = {data: CSVData}; 
-	
-	$.ajax({
-	  	type: "POST",
-	  	url: url,
-	  	data: CSVDataJson,
-		dataType: "text",
-		success: function(result) {
-			// Parse json string
-			var json = JSON.parse(result);
-			$("#preview").append(JSON.stringify(json, null, 2));
-        }
-	});	
-	
-	return CSVData
-};
+	url = url + "output?" + urlParams;
+	console.log(url);
+	return url;
+}
 
 /*-------------------------------------
 Populate Dropdown Boxes
@@ -223,55 +224,23 @@ function populateDropdowns(data, button) {
 }
 
 /*-------------------------------------
-Get Final Output
+Process CSV data
 -------------------------------------*/
-function getFinalOutput(CSVData) {
-	$("#finalOutput").empty();
-	
-	// Get parameters
-	var csvSep = document.getElementById('csvSep').value;
-	var indexCol = getRadioVal('indexCol');
-	var baseStructure = getRadioVal('baseStr');
-	var groupBy = getRadioVal('groupBy');
-	var rootNode = document.getElementById('root-node').value;
-	var ChildField = document.getElementById('nest-key').value;
-	var sumField = getRadioVal('sumField');
-	var sumFieldName = document.getElementById('sumFieldName').value;
-	var avgField = getRadioVal('avgField');
-	var avgFieldName = document.getElementById('avgFieldName').value;
-	var preview = false;
-	var file_or_input = "input";
-	
-	var allFields = [csvSep, indexCol, baseStructure, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
-	
-	urlParams = "";
-	joinChar = "";
-	
-	for (var i in allFields) {
-		if (allFields[i]) {
-			urlParams = urlParams + fieldLabels[i] + "=" + allFields[i] + "&";
-		}
-	} 
-	
-	// Remove final '&'
-	urlParams = urlParams.substring(0, urlParams.length - 1);
-	
-	// Generate URL based on specified parameters
-	var url = window.location.href;
-	url = url + "output?" + urlParams
+function processData(data, url, postTo) {
+	$(postTo).empty();
 	
 	// Post data to API
-	CSVDataJson = {data: CSVData}; 
+	dataJson = {data: data}; 
 	
 	$.ajax({
 	  	type: "POST",
 	  	url: url,
-	  	data: CSVDataJson,
+	  	data: dataJson,
 		dataType: "text",
 		success: function(result) {
 			// Parse json string
 			var json = JSON.parse(result);
-			$("#finalOutput").append(JSON.stringify(json, null, 2));
+			$(postTo).append(JSON.stringify(json, null, 2));
         }
-	});
+	});	
 };

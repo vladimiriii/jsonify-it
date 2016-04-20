@@ -78,8 +78,16 @@ class CSVtoJSON:
         self.avg_field = request.args.get('avg_field', None)
         self.avg_field_name = request.args.get('avg_field_name', None)
         self.base_structure = request.args.get('base_structure', "records")
-        self.preview = request.args.get('preview', False)
         self.file_or_input = request.args.get('file_or_input', 'file')
+        
+        # Handle Boolean parameters
+        if request.args.get('wrapper', False) == 'true':
+            self.wrapper = True
+        else: self.wrapper = False
+        
+        if request.args.get('preview', False) == 'true':
+            self.preview = True
+        else: self.preview = False
         
     def load_data(self):
         
@@ -117,10 +125,8 @@ class CSVtoJSON:
         
         self.data = self.data.astype(object)
         
-        # Handle no nesting scenario
+        # Handle no nesting scenario            
         if self.total_levels == 0:
-            #array = {self.name_field: self.root_node
-            #        , self.child_field : self.data.to_dict(orient = self.base_structure)}
             array = self.data.to_dict(orient = self.base_structure)
         else:
             #Initialize Array
@@ -143,4 +149,8 @@ class CSVtoJSON:
                 , avg_col_name = self.avg_field_name
                 , base_structure = self.base_structure
             )
+        print(self.wrapper)
+        if self.wrapper:
+            array = {self.name_field: self.root_node, self.child_field : array}
+        
         return array

@@ -41,24 +41,17 @@ $(document).ready(function(){
 		// Load the data
 		var CSVData = getData();
 		
+		// Update Preview Window
 		processData(CSVData);
 
-	});
-	
-	// Update Preview Button
-	$('#updatePreview').click(function(){
-		// Load the data
-		var CSVData = getData();
-		
-		processData(CSVData);
-
-		// Populate dropdown lists
-		for(var i = 0; i < buttonsForRefresh.length; i++)
-			populateDropdowns(CSVData, buttonsForRefresh[i]);
 	});
 	
 	// Get Final Output Button
 	$('#convertData').click(function(){
+		// Load the data
+		var CSVData = getData();
+		
+		// Output Data to Final window
 		getFinalOutput(CSVData);
 	});
 });

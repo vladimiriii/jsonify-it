@@ -23,17 +23,43 @@ $(document).ready(function(){
 		$('html, body').animate({scrollTop: $("#outputOptions").offset().top}, 1000);
 	}); 
 	
+	// Re-process Data Button
+	$('#reprocessData').click(function(){
+		// Load the data
+		var CSVData = getData();
+		
+		// Process the data
+		processData(CSVData);
+	
+		// Populate dropdown lists
+		for(var i = 0; i < buttonsForRefresh.length; i++)
+			populateDropdowns(CSVData, buttonsForRefresh[i]);
+	});
+	
 	// Update Preview Button
 	$('#updatePreview').click(function(){
 		// Load the data
 		var CSVData = getData();
 		
 		processData(CSVData);
+
+	});
+	
+	// Update Preview Button
+	$('#updatePreview').click(function(){
+		// Load the data
+		var CSVData = getData();
+		
+		processData(CSVData);
+
+		// Populate dropdown lists
+		for(var i = 0; i < buttonsForRefresh.length; i++)
+			populateDropdowns(CSVData, buttonsForRefresh[i]);
 	});
 	
 	// Get Final Output Button
 	$('#convertData').click(function(){
-		getFinalOutput();
+		getFinalOutput(CSVData);
 	});
 });
 
@@ -78,7 +104,7 @@ function detectSep(data) {
 
 
 /*-------------------------------------
-Process CSV data
+Get selected value from specified radio button
 -------------------------------------*/
 function getRadioVal(form) {
 	
@@ -160,8 +186,9 @@ Populate Dropdown Boxes
 function populateDropdowns(data, button) {
 	
 	// Get values
+	var csvSep = document.getElementById('csvSep').value;
 	var rows = data.split(/\n|\r/);
-	var options = rows[0].split(",");
+	var options = rows[0].split(csvSep);
 	options.unshift("None");
 	var nameText = button.concat("1");
 	
@@ -202,17 +229,11 @@ function populateDropdowns(data, button) {
 	}
 }
 
-
-
-
 /*-------------------------------------
 Get Final Output
 -------------------------------------*/
-function getFinalOutput() {
+function getFinalOutput(CSVData) {
 	$("#finalOutput").empty();
-	
-	// Get CSV data from window
-	var CSVData = document.getElementById('CSVinput').value;
 	
 	// Get parameters
 	var csvSep = document.getElementById('csvSep').value;

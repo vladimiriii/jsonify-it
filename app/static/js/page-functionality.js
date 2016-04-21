@@ -1,6 +1,5 @@
 // Universal Values
 var buttonsForRefresh = ["indexCol", "groupBy", "sumField", "avgField"];
-var fieldLabels = ["csv_sep", "index_col", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 
 $(document).ready(function(){
 	
@@ -13,7 +12,7 @@ $(document).ready(function(){
 		detectSep(CSVData);
 		
 		// Get the parameters
-		var url = getParams();
+		var url = getParams(preview=true);
 		
 		// Process the data
 		var postTo = "#preview"
@@ -33,7 +32,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams();
+		var url = getParams(preview=true);
 		
 		// Process the data
 		var postTo = "#preview"
@@ -50,7 +49,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams();
+		var url = getParams(preview=true);
 		
 		// Update Preview Window
 		var postTo = "#preview"
@@ -64,7 +63,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams();
+		var url = getParams(preview=false);
 		
 		// Output Data to Final window
 		var postTo = "#finalOutput"
@@ -137,25 +136,29 @@ function getRadioVal(form) {
 /*-------------------------------------
 Get parameters from the HTML form
 -------------------------------------*/
-function getParams() {
+function getParams(preview) {
 	
-	// Get parameters
+	var file_or_input = "input";
+
+	// Text fields
 	var csvSep = document.getElementById('csvSep').value;
+	var rootNode = document.getElementById('root-node').value;
+	var ChildField = document.getElementById('nest-key').value;
+	var avgFieldName = document.getElementById('avgFieldName').value;
+	var sumFieldName = document.getElementById('sumFieldName').value;
+	
+	// Radio buttons
 	var indexCol = getRadioVal('indexCol');
+	var headerSel = getRadioVal('headerSel');
 	var baseStructure = getRadioVal('baseStr');
 	var wrapperSel = getRadioVal('wrapperSel');
 	var groupBy = getRadioVal('groupBy');
-	var rootNode = document.getElementById('root-node').value;
-	var ChildField = document.getElementById('nest-key').value;
 	var sumField = getRadioVal('sumField');
-	var sumFieldName = document.getElementById('sumFieldName').value;
 	var avgField = getRadioVal('avgField');
-	var avgFieldName = document.getElementById('avgFieldName').value;
-	var preview = true;
-	var file_or_input = "input";
 	
 	// Generate URL
-	var allFields = [csvSep, indexCol, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+	var allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+	var fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 	urlParams = "";
 	joinChar = "";
 	for (var i in allFields) {
@@ -180,22 +183,29 @@ Populate Dropdown Boxes
 function populateDropdowns(data, button) {
 	
 	// Get values
+	var headerSel = getRadioVal('headerSel');
 	var csvSep = document.getElementById('csvSep').value;
 	var rows = data.split(/\n|\r/);
 	var options = rows[0].split(csvSep);
-	options.unshift("None");
-	var nameText = button.concat("1");
 	
+	options.unshift("None");
+	
+	var nameText = button.concat("1");
 	// Get ID and empty old values
 	var select = document.getElementById(button);
 	while (select.firstChild) {
 	    select.removeChild(select.firstChild);
 	}
-	
+
 	// Loop through options
 	for(var i = 0; i < options.length; i++) {
-		//Get info
-	    var opt = options[i];
+
+		// If no header, replace with generic values
+		if(headerSel == 'true'){
+	    	var opt = options[i];
+		} else{
+			var opt = String(i-1);
+		}
 		var labelText = nameText.concat("_", String(i));
 		
 		// Create elements
@@ -207,14 +217,16 @@ function populateDropdowns(data, button) {
 		input.type = "radio";
 		input.id = labelText; 
 		input.name = nameText;
-		if (opt == "None") {
+		if (i == 0) {
 			input.value = "";
 			input.checked = true;
+			$(label).append("None");
 		} else {
 			input.value = opt;
+			$(label).append(opt);
 			}
 		label.htmlFor = labelText;
-		$(label).append(opt);
+		
 		
 		// Append nested objects
 		li.appendChild(input);

@@ -81,13 +81,20 @@ class CSVtoJSON:
         self.file_or_input = request.args.get('file_or_input', 'file')
         
         # Handle Boolean parameters
+        if request.args.get('header_sel', True) == 'true':
+            self.header_sel = 0
+        else:
+            self.header_sel = None
+        
         if request.args.get('wrapper', False) == 'true':
             self.wrapper = True
-        else: self.wrapper = False
+        else: 
+            self.wrapper = False
         
         if request.args.get('preview', False) == 'true':
             self.preview = True
-        else: self.preview = False
+        else: 
+            self.preview = False
         
     def load_data(self):
         
@@ -99,11 +106,11 @@ class CSVtoJSON:
             self.filepath = os.path.join(APP_STATIC, file_n)
             
             # Load in csv Dataset
-            self.data = pd.read_csv(self.filepath, header=0, delimiter=self.csv_sep, quoting=0, index_col=self.index_col)
+            self.data = pd.read_csv(self.filepath, header=self.header_sel, delimiter=self.csv_sep, quoting=0, index_col=self.index_col)
             
         elif self.file_or_input == "input":
             input_data = StringIO(request.form['data'])
-            self.data = pd.DataFrame.from_csv(path = input_data, header=0, sep=self.csv_sep, index_col=self.index_col, encoding='utf-8')
+            self.data = pd.DataFrame.from_csv(path = input_data, header=self.header_sel, sep=self.csv_sep, index_col=self.index_col, encoding='utf-8')
             
         if self.filter_col is not None and self.filter_val is not None:
             self.data = self.data.loc[self.data.loc[ : , self.filter_col].astype(str) == str(self.filter_val), : ]
@@ -149,7 +156,7 @@ class CSVtoJSON:
                 , avg_col_name = self.avg_field_name
                 , base_structure = self.base_structure
             )
-        print(self.wrapper)
+
         if self.wrapper:
             array = {self.name_field: self.root_node, self.child_field : array}
         

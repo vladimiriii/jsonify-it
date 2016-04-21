@@ -60,19 +60,28 @@
 							<!-- Input Options -->
 							<div class="row">
 								<div class="col-lg-4">
-									<div class="col-lg-7">
+									<div class="col-lg-6">
 										<p>Separator:</p>
 									</div>
-									<div class="col-lg-5">
+									<div class="col-lg-6">
 										<div class="form-group">
 											<input type="text" class="form-control text-center" id="csvSep">
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-2">
+								<div class="col-lg-5">
+									<div class="col-lg-4 text-left">
+										<p>Header:</p>
+									</div>
+									<div class="col-lg-8">
+										<div class="radio" id="headerSel">
+											<label class="radio-inline"><input type="radio" name="header" value="true" checked>Yes</label>
+										  	<label class="radio-inline"><input type="radio" name="header" value="false">No</label>
+										</div>
+									</div>	
 								</div>
-								<div class="col-lg-6 text-right">
-									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess Data 
+								<div class="col-lg-3 text-right">
+									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess 
 										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 									</button>
 								</div>

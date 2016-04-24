@@ -80,6 +80,10 @@ class CSVtoJSON:
         self.base_structure = request.args.get('base_structure', "records")
         self.file_or_input = request.args.get('file_or_input', 'file')
         
+        # Handle Tab separated files
+        if self.csv_sep == "tab":
+            self.csv_sep = "\t"
+        
         # Handle Boolean parameters
         if request.args.get('header_sel', True) == 'true':
             self.header_sel = 0
@@ -106,20 +110,32 @@ class CSVtoJSON:
             self.filepath = os.path.join(APP_STATIC, file_n)
             
             # Load in csv Dataset
-            self.data = pd.read_csv(self.filepath, header=self.header_sel, delimiter=self.csv_sep, quoting=0, index_col=self.index_col)
+            self.data = pd.read_csv(self.filepath, header=self.header_sel, delimiter=self.csv_sep, quoting=0, index_col=None)
             
         elif self.file_or_input == "input":
             input_data = StringIO(request.form['data'])
-            self.data = pd.DataFrame.from_csv(path = input_data, header=self.header_sel, sep=self.csv_sep, index_col=self.index_col, encoding='utf-8')
-            
+            self.data = pd.DataFrame.from_csv(path = input_data, header=self.header_sel, sep=self.csv_sep, index_col=None, encoding='utf-8')
+        
+        # Apply filters
         if self.filter_col is not None and self.filter_val is not None:
             self.data = self.data.loc[self.data.loc[ : , self.filter_col].astype(str) == str(self.filter_val), : ]
-
+        
+        # Apply specified row limit 
         if self.limit is not None:
             self.data = self.data[ :int(self.limit)]
+        
+        # Set index according to selected value
+        if self.index_col is not None:
             
+            # Handle No Header Scenario
+            if self.header_sel is None:
+                self.index_col = int(self.index_col)
+            
+            self.data.set_index(self.index_col, inplace=True)
+        
+        # Get only first 10 rows if preview
         if self.preview:
-            self.data = self.data[ :10]
+            self.data = self.data.iloc[ : ,0:10]
         
         # Check if column names were passed and use if able
         if self.group_by is not None:

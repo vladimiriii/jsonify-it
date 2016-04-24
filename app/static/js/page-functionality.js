@@ -12,7 +12,7 @@ $(document).ready(function(){
 		detectSep(CSVData);
 		
 		// Get the parameters
-		var url = getParams(preview=true);
+		var url = getParams(preview=true, stage="process");
 		
 		// Process the data
 		var postTo = "#preview"
@@ -32,7 +32,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams(preview=true);
+		var url = getParams(preview=true, stage="process");
 		
 		// Process the data
 		var postTo = "#preview"
@@ -49,7 +49,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams(preview=true);
+		var url = getParams(preview=true, stage="output");
 		
 		// Update Preview Window
 		var postTo = "#preview"
@@ -63,7 +63,7 @@ $(document).ready(function(){
 		var CSVData = getData();
 		
 		// Get the parameters
-		var url = getParams(preview=false);
+		var url = getParams(preview=false, stage="output");
 		
 		// Output Data to Final window
 		var postTo = "#finalOutput"
@@ -105,7 +105,7 @@ function detectSep(data) {
 	        maxChar = char;
 	    };
 	};
-	
+
 	// Append value to field
 	$("#csvSep").val(maxChar);
 }
@@ -136,29 +136,41 @@ function getRadioVal(form) {
 /*-------------------------------------
 Get parameters from the HTML form
 -------------------------------------*/
-function getParams(preview) {
+function getParams(preview, stage) {
 	
 	var file_or_input = "input";
-
-	// Text fields
 	var csvSep = document.getElementById('csvSep').value;
-	var rootNode = document.getElementById('root-node').value;
-	var ChildField = document.getElementById('nest-key').value;
-	var avgFieldName = document.getElementById('avgFieldName').value;
-	var sumFieldName = document.getElementById('sumFieldName').value;
-	
-	// Radio buttons
-	var indexCol = getRadioVal('indexCol');
 	var headerSel = getRadioVal('headerSel');
-	var baseStructure = getRadioVal('baseStr');
-	var wrapperSel = getRadioVal('wrapperSel');
-	var groupBy = getRadioVal('groupBy');
-	var sumField = getRadioVal('sumField');
-	var avgField = getRadioVal('avgField');
+	
+	// Handle tab separated data
+	if(csvSep =="\t"){
+		csvSep = "tab";
+	}
+	
+	// Set base variables
+	var allFields = [csvSep, headerSel, preview, file_or_input];
+	var fieldLabels = ["csv_sep", "header_sel", "preview", "file_or_input"];
+	
+	// Only get output parameters when doing update or final output
+	if(stage == 'output'){
+		var rootNode = document.getElementById('root-node').value;
+		var ChildField = document.getElementById('nest-key').value;
+		var avgFieldName = document.getElementById('avgFieldName').value;
+		var sumFieldName = document.getElementById('sumFieldName').value;
+		
+		// Radio buttons
+		var indexCol = getRadioVal('indexCol');
+		var baseStructure = getRadioVal('baseStr');
+		var wrapperSel = getRadioVal('wrapperSel');
+		var groupBy = getRadioVal('groupBy');
+		var sumField = getRadioVal('sumField');
+		var avgField = getRadioVal('avgField');
+		
+		var allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+		var fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
+	}
 	
 	// Generate URL
-	var allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
-	var fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 	urlParams = "";
 	joinChar = "";
 	for (var i in allFields) {
@@ -243,7 +255,6 @@ function processData(data, url, postTo) {
 	
 	// Post data to API
 	dataJson = {data: data}; 
-	
 	$.ajax({
 	  	type: "POST",
 	  	url: url,
@@ -253,6 +264,9 @@ function processData(data, url, postTo) {
 			// Parse json string
 			var json = JSON.parse(result);
 			$(postTo).append(JSON.stringify(json, null, 2));
-        }
-	});	
+        },
+		error: function(msg){
+			$(postTo).append(msg);
+		}
+	});
 };

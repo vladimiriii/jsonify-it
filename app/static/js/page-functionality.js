@@ -68,7 +68,9 @@ $(document).ready(function(){
 		// Output Data to Final window
 		var postTo = "#finalOutput"
 		processData(CSVData, url, postTo);
+		
 	});
+
 });
 
 /*-------------------------------------
@@ -264,9 +266,23 @@ function processData(data, url, postTo) {
 			// Parse json string
 			var json = JSON.parse(result);
 			$(postTo).append(JSON.stringify(json, null, 2));
+			if(postTo == "#finalOutput"){
+				generateDownload(JSON.stringify(json, null, 2));
+			}
+			
         },
 		error: function(msg){
 			$(postTo).append(msg);
 		}
 	});
 };
+
+/*-------------------------------------
+Dynamically generate JSON file for download
+-------------------------------------*/
+function generateDownload(JSONData){
+	var data = "text/json;charset=utf-8," + encodeURIComponent(JSONData);
+	var button = document.getElementById('downloadButton');
+	button.href = 'data:' + data;
+	button.download = 'data.json';
+}

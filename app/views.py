@@ -21,15 +21,15 @@ def doc_page():
 
 @output_page.route('/output', methods=['GET', 'POST'])
 def output_data():
-    #try:
+    try:
         data_req = cj.CSVtoJSON()
         data_req.load_data()
         array = data_req.generate_array()
 
         return pd.io.json.dumps(array)
 
-    #except:
-    #    return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
+    except:
+        return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
         
         
 # @output_page.route('/api/tojson', methods=['POST'])

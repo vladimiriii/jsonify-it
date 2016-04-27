@@ -1,6 +1,9 @@
 // Universal Values
 var buttonsForRefresh = ["indexCol", "sumField", "avgField", "nestCol"];
 
+/*-------------------------------------
+On page ready
+-------------------------------------*/
 $(document).ready(function(){
 	
 	var byId = function (id) { return document.getElementById(id); }
@@ -133,7 +136,6 @@ function detectSep(data) {
 	// Append value to field
 	$("#csvSep").val(maxChar);
 }
-
 
 /*-------------------------------------
 Get selected value from specified radio button

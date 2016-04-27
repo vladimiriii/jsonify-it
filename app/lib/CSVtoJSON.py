@@ -75,9 +75,9 @@ class CSVtoJSON:
         self.name_field = request.args.get('name_field', "name")
         self.child_field = request.args.get('child_field', "children")
         self.sum_field = request.args.get('sum_field', None)
-        self.sum_field_name = request.args.get('sum_field_name', None)
+        self.sum_field_name = request.args.get('sum_field_name', "sum")
         self.avg_field = request.args.get('avg_field', None)
-        self.avg_field_name = request.args.get('avg_field_name', None)
+        self.avg_field_name = request.args.get('avg_field_name', "average")
         self.base_structure = request.args.get('base_structure', "records")
         self.file_or_input = request.args.get('file_or_input', 'file')
         

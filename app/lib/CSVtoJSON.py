@@ -27,8 +27,9 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
 
     #Loop through levels
     i = 0
+        
     for level in levels:
-
+            
         # Create empty children subarray
         array[children].insert(i, {})
         array[children][i][children] = {}
@@ -38,7 +39,7 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
             new_level = current_level + 1
             subdata = data.loc[data[colname] == level, : ]
             new_array = {children : []}
-            subarray = inner_loop(subdata, new_array, new_level, total_levels, nest_cols, name, children, sum_value, avg_value, base_structure, count_field)
+            subarray = inner_loop(subdata, new_array, new_level, total_levels, nest_cols, name, children, sum_col, sum_col_name, avg_col, avg_col_name, base_structure, count_field)
             array[children][i] = subarray
 
         # Else if all nesting completed
@@ -67,6 +68,7 @@ class CSVtoJSON:
         self.index_col = request.args.get('index_col', None)
         self.file_name = request.args.get('file_name')
         self.group_by = request.args.get('group_by', None)
+        self.col_names = request.args.get('col_names', None)
         self.filter_col = request.args.get('filter_col', None)
         self.filter_val = request.args.get('filter_val', None)
         self.limit = request.args.get('limit', None)
@@ -138,9 +140,9 @@ class CSVtoJSON:
             self.data = self.data.iloc[ : ,0:10]
         
         # Check if column names were passed and use if able
-        if self.group_by is not None:
-            self.group_by = self.group_by.split(',')
-            self.total_levels = len(self.group_by)
+        if self.col_names is not None:
+            self.col_names = self.col_names.split(',')
+            self.total_levels = len(self.col_names)
         else:
             self.total_levels = 0
         
@@ -153,9 +155,7 @@ class CSVtoJSON:
             array = self.data.to_dict(orient = self.base_structure)
         else:
             #Initialize Array
-            array = {self.name_field: self.root_node
-                    , self.child_field : []
-                    }
+            array = {self.child_field : []}
                     
             # Begin Recursion
             current_level = 1
@@ -163,7 +163,7 @@ class CSVtoJSON:
                 , array = array
                 , current_level = current_level
                 , total_levels  = self.total_levels
-                , nest_cols = self.group_by
+                , nest_cols = self.col_names
                 , name = self.name_field
                 , children = self.child_field
                 , sum_col = self.sum_field
@@ -172,8 +172,11 @@ class CSVtoJSON:
                 , avg_col_name = self.avg_field_name
                 , base_structure = self.base_structure
             )
+            
+            # Remove outer layer
+            array = array[self.child_field]
 
         if self.wrapper:
             array = {self.name_field: self.root_node, self.child_field : array}
-        
+    
         return array

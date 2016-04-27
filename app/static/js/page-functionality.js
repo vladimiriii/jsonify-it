@@ -1,7 +1,9 @@
 // Universal Values
-var buttonsForRefresh = ["indexCol", "groupBy", "sumField", "avgField"];
+var buttonsForRefresh = ["indexCol", "sumField", "avgField", "nestCol"];
 
 $(document).ready(function(){
+	
+	var byId = function (id) { return document.getElementById(id); }
 	
 	// Process Data Button
 	$('#process-data').click(function(){
@@ -42,6 +44,26 @@ $(document).ready(function(){
 		for(var i = 0; i < buttonsForRefresh.length; i++)
 			populateDropdowns(CSVData, buttonsForRefresh[i]);
 	});
+	
+	// Adjustable List for Nesting
+	var editableList = Sortable.create(byId('editable'), {
+		animation: 150,
+		filter: '.js-remove',
+		onFilter: function (evt) {
+			evt.item.parentNode.removeChild(evt.item);
+		}
+	});
+	
+	// Add level button
+	$('#addLevel').click(function(){
+		var nestCol = getRadioVal('nestCol');
+		var el = document.createElement('li');
+		el.className = "el-item";
+		el.setAttribute('data-value', nestCol);
+		el.innerHTML = nestCol + '<i class="js-remove">✖</i>';
+		editableList.el.appendChild(el);
+	});
+	
 	
 	// Update Preview Button
 	$('#updatePreview').click(function(){
@@ -164,12 +186,21 @@ function getParams(preview, stage) {
 		var indexCol = getRadioVal('indexCol');
 		var baseStructure = getRadioVal('baseStr');
 		var wrapperSel = getRadioVal('wrapperSel');
-		var groupBy = getRadioVal('groupBy');
 		var sumField = getRadioVal('sumField');
 		var avgField = getRadioVal('avgField');
 		
-		var allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, groupBy, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
-		var fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "group_by", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
+		// Nesting Columns
+		var colNames = ""
+		var listItems = document.getElementById("editable");
+		var levels = listItems.getElementsByTagName('li');
+	    for (var i=0, len=levels.length; i<len; i++) {
+	        colNames = colNames + String(levels[i].getAttribute('data-value')) + ",";
+	    }		
+		colNames = colNames.substring(0, colNames.length - 1);
+		
+		// List of all parameters
+		var allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, colNames, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+		var fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "col_names", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 	}
 	
 	// Generate URL

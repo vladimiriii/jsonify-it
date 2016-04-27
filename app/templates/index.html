@@ -215,16 +215,11 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="row">
-										<div class="col-lg-6 text-left">
-											<p>Group By:</p>
-										</div>
-										<div class="col-lg-6">
-											<div class="form-inline">
-												<div class="button-group">
-													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
-													<ul class="dropdown-menu" id="groupBy">
-													</ul>	
-												</div>
+										<div class="col-lg-12">
+											<div style="margin-top: -8px; margin-left: 10px" class="block__list block__list_words">
+												<ul id="editable">
+												</ul>
+												<button class="btn btn-default" id="addUser" data-toggle="modal" data-target="#addLevelModal">Add Level</button>
 											</div>
 										</div>
 									</div>
@@ -299,7 +294,7 @@
 						<div class="panel-body">
 							<!-- Convert Button -->
 							<div class="row text-center">
-								<button type="button" id="convertData" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Convert! 
+								<button type="button" id="convertData" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#outputModal">Convert! 
 									<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
 								</button>	
 							</div>
@@ -327,9 +322,47 @@
 			</div>
 		</div> <!-- Preview Column -->
 	</div> <!-- Options/Preview row -->
-		
-	<!-- Modal -->
-	<div id="myModal" class="modal fade" role="dialog">
+	
+	<!-- Output Modal -->
+	<div id="addLevelModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add Level</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-1">
+						</div>
+						<div class="col-lg-10">
+							<div class="form-inline">
+								<div class="button-group">
+									<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
+									<ul class="dropdown-menu" id="nestCol">
+									</ul>	
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-1">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<div class="col-lg-6 text-left">
+						<button type="button" class="btn btn-success" id="addLevel" data-dismiss="modal">Add Level</button>
+					</div>
+					<div class="col-lg-6 text-right">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Output Modal -->
+	<div id="outputModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<!-- Modal content-->
 			<div class="modal-content">

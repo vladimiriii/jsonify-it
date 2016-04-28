@@ -136,7 +136,7 @@ class CSVtoJSON:
         
         # Get only first 10 rows if preview
         if self.preview:
-            self.data = self.data.iloc[ : ,0:10]
+            self.data = self.data.iloc[0:10, : ]
         
         # Check if column names were passed and use if able
         if self.col_names is not None:

@@ -116,7 +116,7 @@ function detectSep(data) {
 	var rows = data.split(/\n|\r/);
 	var firstRow = rows[0];
 	// Remove all normal chars
-	firstRow = firstRow.replace(/([A-Z]|[0-9]|\"|\'|\.|_)/ig, "");
+	firstRow = firstRow.replace(/([A-Z]|[0-9]|\"|\'|\.|_| )/ig, "");
 
 	// Find most common char left
 	var charCounts = {};

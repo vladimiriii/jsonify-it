@@ -1,8 +1,8 @@
-##CSV Server##
+## CSV Server
 Create a server that returns dynamically generated nested JSON files from CSVs
 
-####Install####
+#### Install
 bash install.sh
 
-####Run####
+#### Run
 bash run.sh 

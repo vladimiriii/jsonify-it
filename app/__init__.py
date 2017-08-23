@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import ConfigParser
+import configparser
 import os
 from flask import Flask
 
@@ -26,14 +26,14 @@ def init_modules(app):
 
 # Read config file
 def load_config(app):
-    
+
     # Get the path to the application directory, that's where the config file resides.
     par_dir = os.path.join(__file__, os.pardir)
     par_dir_abs_path = os.path.abspath(par_dir)
     app_dir = os.path.dirname(par_dir_abs_path)
     print(par_dir_abs_path)
-    
-    config = ConfigParser.RawConfigParser()
+
+    config = configparser.RawConfigParser()
     config_filepath = app_dir + '/config.cfg'
     config.read(config_filepath)
 

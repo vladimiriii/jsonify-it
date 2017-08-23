@@ -1,3 +1,9 @@
+/* Navbar */
+.navbar-brand {
+	font-size: 36px;
+}
+
+/* Body */
 #preview {
 	font-family: "consolas", "helvetica";
 	font-size: 8pt;
@@ -105,8 +111,8 @@ img {
 	background: #5F9EDF;
 }
 
-.block__list li { 
-	cursor: move; 
+.block__list li {
+	cursor: move;
 }
 
 .block__list_words li {
@@ -203,4 +209,17 @@ img {
 
 #nested ul li {
 	background-color: rgba(0,0,0,.05);
+}
+
+/* Responsivity */
+@media screen and (max-width: 992px) {
+    .navbar-brand {
+    	font-size: 26px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .navbar-brand {
+    	font-size: 20px;
+    }
 }

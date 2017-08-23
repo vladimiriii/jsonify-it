@@ -3,14 +3,14 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12 text-center">
-			<h1>Welcome to the Open Data Kosovo CSV to JSON Converter</h1>
+			<h1>Welcome to JSONify It - CSV to JSON Converter</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-lg-1">
 		</div>
 		<div class="col-lg-10 text-justified">
-			<p>There are two ways of using this application. The first is to use the interface provided below in order to do one-off translations of CSV to JSON. The second way is to fork the repo for this application, set up your server and use it to feed JSON directly into other applications that need dynamically generated JSON.</p>
+			<p>There are two ways of using this application. The first is to use the interface provided below in order to do one-off translations of CSV to JSON. The second way is to fork <a href="https://github.com/vladimiriii/jsonify-it">the repo</a> for this application, set up your server and use it to feed JSON directly into other applications that need dynamically generated JSON.</p>
 		</div>
 		<div class="col-lg-1">
 		</div>
@@ -33,7 +33,7 @@
 	</div> <!-- CSV Input Row -->
 	<div class="row">
 		<div class="col-lg-12 text-center">
-			<button type="button" id="process-data" class="btn btn-primary btn-lg">Preprocess <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>	
+			<button type="button" id="process-data" class="btn btn-primary btn-lg">Preprocess <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
 		</div>
 	</div> <!-- Preprocess button row -->
 	<br>
@@ -78,10 +78,10 @@
 											<label class="radio-inline"><input type="radio" name="header" value="true" checked>Yes</label>
 										  	<label class="radio-inline"><input type="radio" name="header" value="false">No</label>
 										</div>
-									</div>	
+									</div>
 								</div>
 								<div class="col-lg-3 text-right">
-									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess 
+									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess
 										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 									</button>
 								</div>
@@ -112,7 +112,7 @@
 										<div class="col-lg-6 text-right">
 											<div class="form-inline">
 												<div class="button-group">
-													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Records 
+													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Records
 														<span class="caret"></span>
 													</button>
 													<ul class="dropdown-menu" id="baseStr">
@@ -144,7 +144,7 @@
 												</div>
 											</div>
 										</div>
-									</div>	
+									</div>
 								</div>
 								<div class="col-lg-6">
 									<div class="col-lg-6">
@@ -155,7 +155,7 @@
 											<div class="button-group">
 												<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
 												<ul class="dropdown-menu" id="indexCol">
-												</ul>	
+												</ul>
 											</div>
 										</div>
 									</div>
@@ -205,7 +205,7 @@
 											</div>
 										</div>
 									</div>
-								</div>	
+								</div>
 							</div>  <!-- Buttons second row -->
 							<div class="row">
 								<div class="col-lg-12">
@@ -234,7 +234,7 @@
 												<div class="button-group">
 													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
 													<ul class="dropdown-menu" id="sumField">
-													</ul>	
+													</ul>
 												</div>
 											</div>
 										</div>
@@ -257,7 +257,7 @@
 											<div class="form-inline">
 												<div class="button-group">
 													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
-													<ul class="dropdown-menu" id="avgField"></ul>	
+													<ul class="dropdown-menu" id="avgField"></ul>
 												</div>
 											</div>
 										</div>
@@ -273,10 +273,10 @@
 										</div>
 									</div>
 								</div>
-							</div> 
+							</div>
 							<div class="row">
 								<div class="col-lg-12 text-right">
-									<button type="button" class="btn btn-success" id="updatePreview">Update Preview 
+									<button type="button" class="btn btn-success" id="updatePreview">Update Preview
 										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 									</button>
 								</div>
@@ -294,9 +294,9 @@
 						<div class="panel-body">
 							<!-- Convert Button -->
 							<div class="row text-center">
-								<button type="button" id="convertData" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#outputModal">Convert! 
+								<button type="button" id="convertData" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#outputModal">JSONify It!
 									<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-								</button>	
+								</button>
 							</div>
 						</div>
 					</div>
@@ -322,7 +322,7 @@
 			</div>
 		</div> <!-- Preview Column -->
 	</div> <!-- Options/Preview row -->
-	
+
 	<!-- Output Modal -->
 	<div id="addLevelModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-sm">
@@ -341,7 +341,7 @@
 								<div class="button-group">
 									<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
 									<ul class="dropdown-menu" id="nestCol">
-									</ul>	
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -360,7 +360,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Output Modal -->
 	<div id="outputModal" class="modal fade" role="dialog">
 		<div class="modal-dialog modal-lg">
@@ -398,6 +398,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </div>
 {% endblock %}

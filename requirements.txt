@@ -1,3 +1,2 @@
 Flask==0.10.1
-pandas==0.18.0
-configparser==3.5.0
+pandas==0.19.1

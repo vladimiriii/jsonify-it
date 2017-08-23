@@ -1,13 +1,13 @@
 #! /usr/bin/env bash
 
-# check python version, should be over 2.7
-ret=`python -c 'import sys; print("%i" % (sys.hexversion<0x02060000))'`
+# check python version, should be over 3.5.2
+ret=`python3 -c 'import sys; print("%i" % (sys.hexversion<0x03050200))'`
 if [ $ret -eq 0 ]; then
     echo "Required version of Python already installed."
 
-else 
-    echo "You need to install Python 2.7.X"
-    echo -e "Install Python 2.7.3? [y/n] \c "
+else
+    echo "You need to install Python 3.5.2"
+    echo -e "Install Python 3.5.2? [y/n] \c "
     read word
     if [ $word == "y" ]; then
        if [ "$(whoami)" != "root" ]; then
@@ -15,12 +15,12 @@ else
           exit 1
        fi
        # echo "You said yes"
-       echo `wget http://python.org/ftp/python/2.7.3/Python-2.7.3.tar.bz2`
-       echo `tar xf Python-2.7.3.tar.bz2`
-       cd Python-2.7.3
+       echo `wget https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz --no-check-certificate`
+       echo `tar xf Python-3.5.2.tgz`
+       cd Python-3.5.2
        echo `./configure --prefix=/usr/local`
        echo `make && make altinstall`
-       echo `rm Python-2.7.3.tar.bz2`
+       echo `rm Python-3.5.2.tgz`
      else
        echo "Aborting installation script."
        exit 1
@@ -43,18 +43,18 @@ if [ -z "$ve" ]; then
       echo "Installing virtualenv..."
       currdir=`pwd`
       cd $HOME
-      echo `curl -O https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.10.1.tar.gz`
-      echo `tar xvfz virtualenv-1.10.1.tar.gz`
-      cd virtualenv-1.10.1
+      echo `curl -O https://pypi.python.org/packages/d4/0c/9840c08189e030873387a73b90ada981885010dd9aea134d6de30cd24cb8/virtualenv-15.1.0.tar.gz#md5=44e19f4134906fe2d75124427dc9b716`
+      echo `tar xvfz virtualenv-15.1.0.tar.gz`
+      cd virtualenv-15.1.0
       echo `python setup.py install`
       cd $currdir
    fi
 fi
 # start virtual env and install flask
-echo `virtualenv -p python venv`
+echo `virtualenv -p python3 venv`
 currentDir=`pwd`
 virtualenvPath='venv/bin/activate'
-source $currentDir/$virtualenvPath 
+source $currentDir/$virtualenvPath
 
 pip install -r requirements.txt
 echo "Installation complete."

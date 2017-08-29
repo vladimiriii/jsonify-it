@@ -1,7 +1,6 @@
 #!/usr/bin/python
 app_dir_path = '<FILEPATH>'
 activate_this = '%s/venv/bin/activate_this.py' % (app_dir_path)
-execfile(activate_this, dict(__file__=activate_this))
 
 import sys
 sys.stdout = sys.stderr

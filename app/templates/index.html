@@ -1,24 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
-<div class="container">
 	<div class="row">
-		<div class="col-lg-12 text-center">
+		<div class="col-md-12 text-center">
 			<h1>Welcome to JSONify It - CSV to JSON Converter</h1>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-1">
-		</div>
-		<div class="col-lg-10 text-justified">
+		<div class="col-md-10 col-md-offset-1 text-justified">
 			<p>There are two ways of using this application. The first is to use the interface provided below in order to do one-off translations of CSV to JSON. The second way is to fork <a href="https://github.com/vladimiriii/jsonify-it">the repo</a> for this application, set up your server and use it to feed JSON directly into other applications that need dynamically generated JSON.</p>
-		</div>
-		<div class="col-lg-1">
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-2">
-		</div>
-		<div class="col-lg-8">
+		<div class="col-md-8 col-md-offset-2">
 			<form>
 			  <div class="form-horizontal">
 			      <div class="form-group">
@@ -28,24 +21,23 @@
 			  </div>
 			</form>
 		</div>
-		<div class="col-lg-2">
-		</div>
 	</div> <!-- CSV Input Row -->
 	<div class="row">
-		<div class="col-lg-12 text-center">
+		<div class="col-md-12 text-center">
 			<button type="button" id="process-data" class="btn btn-primary btn-lg">Preprocess <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
 		</div>
 	</div> <!-- Preprocess button row -->
 	<br>
 	<div class="row" id="outputOptions">
-		<div class="col-lg-6">
+		<div class="col-md-6">
 			<h3>Input and Output Options</h3>
 		</div>
-		<div class="col-lg-6">
+		<div class="col-md-6">
 			<h3>JSON Preview</h3>
 		</div>
+    </div>
 	<div class="row">
-		<div class="col-lg-6">
+		<div class="col-md-6">
 			<div class="panel-group" id="accordion">
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -59,28 +51,32 @@
 						<div class="panel-body">
 							<!-- Input Options -->
 							<div class="row">
-								<div class="col-lg-4">
-									<div class="col-lg-6">
-										<p>Separator:</p>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-group">
-											<input type="text" class="form-control text-center" id="csvSep">
-										</div>
-									</div>
+								<div class="col-md-4">
+                                    <div class="row">
+    									<div class="col-md-6">
+    										<p>Separator:</p>
+    									</div>
+    									<div class="col-md-6">
+    										<div class="form-group">
+    											<input type="text" class="form-control text-center" id="csvSep">
+    										</div>
+    									</div>
+                                    </div>
 								</div>
-								<div class="col-lg-5">
-									<div class="col-lg-4 text-left">
-										<p>Header:</p>
-									</div>
-									<div class="col-lg-8">
-										<div class="radio" id="headerSel">
-											<label class="radio-inline"><input type="radio" name="header" value="true" checked>Yes</label>
-										  	<label class="radio-inline"><input type="radio" name="header" value="false">No</label>
-										</div>
-									</div>
+								<div class="col-md-5">
+                                    <div class="row">
+    									<div class="col-md-4 text-left">
+    										<p>Header:</p>
+    									</div>
+    									<div class="col-md-8">
+    										<div class="radio" id="headerSel">
+    											<label class="radio-inline"><input type="radio" name="header" value="true" checked>Yes</label>
+    										  	<label class="radio-inline"><input type="radio" name="header" value="false">No</label>
+    										</div>
+    									</div>
+                                    </div>
 								</div>
-								<div class="col-lg-3 text-right">
+								<div class="col-md-3 text-right">
 									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess
 										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 									</button>
@@ -99,17 +95,17 @@
 					<div id="collapseTwo" class="panel-collapse collapse">
 						<div class="panel-body">
 							<div class="row">
-								<div class="col-lg-12">
+								<div class="col-md-12">
 									<h4>Basic Output Options</h4>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Base Structure:</p>
 										</div>
-										<div class="col-lg-6 text-right">
+										<div class="col-md-6 text-right">
 											<div class="form-inline">
 												<div class="button-group">
 													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Records
@@ -146,33 +142,35 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-6">
-									<div class="col-lg-6">
-										<p>Index:</p>
-									</div>
-									<div class="col-lg-6">
-										<div class="form-inline">
-											<div class="button-group">
-												<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
-												<ul class="dropdown-menu" id="indexCol">
-												</ul>
-											</div>
-										</div>
-									</div>
+								<div class="col-md-6">
+                                    <div class="row">
+    									<div class="col-md-6">
+    										<p>Index:</p>
+    									</div>
+    									<div class="col-md-6">
+    										<div class="form-inline">
+    											<div class="button-group">
+    												<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
+    												<ul class="dropdown-menu" id="indexCol">
+    												</ul>
+    											</div>
+    										</div>
+    									</div>
+                                    </div>
 								</div>
 							</div> <!-- Buttons first row -->
 							<div class="row">
-								<div class="col-lg-12">
+								<div class="col-md-12">
 									<h4>Wrapper Options</h4>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<p>Include wrapper?</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="radio" id="wrapperSel">
 												<label class="radio-inline"><input type="radio" name="wrapper" value="true">Yes</label>
 											  	<label class="radio-inline"><input type="radio" name="wrapper" value="false" checked>No</label>
@@ -182,24 +180,24 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Name Value:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-group">
 												<input type="text" class="form-control" id="root-node">
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Children Key:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-group">
 												<input type="text" class="form-control" id="nest-key">
 											</div>
@@ -208,14 +206,14 @@
 								</div>
 							</div>  <!-- Buttons second row -->
 							<div class="row">
-								<div class="col-lg-12">
+								<div class="col-md-12">
 									<h4>Nesting Options</h4>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-12">
+										<div class="col-md-12">
 											<div style="margin-top: -8px; margin-left: 10px" class="block__list block__list_words">
 												<ul id="editable">
 												</ul>
@@ -224,12 +222,12 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-lg-6">
+								<div class="col-md-6">
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Column to Sum:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-inline">
 												<div class="button-group">
 													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
@@ -243,17 +241,17 @@
 										<div class="col-lg-6 text-left">
 											<p>Field Name:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-group">
 												<input type="text" class="form-control" id="sumFieldName">
 											</div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Average Field:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-inline">
 												<div class="button-group">
 													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
@@ -263,10 +261,10 @@
 										</div>
 									</div>
 									<div class="row">
-										<div class="col-lg-6 text-left">
+										<div class="col-md-6 text-left">
 											<p>Field Name:</p>
 										</div>
-										<div class="col-lg-6">
+										<div class="col-md-6">
 											<div class="form-group">
 												<input type="text" class="form-control" id="avgFieldName">
 											</div>
@@ -275,7 +273,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-lg-12 text-right">
+								<div class="col-md-12 text-right">
 									<button type="button" class="btn btn-success" id="updatePreview">Update Preview
 										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
 									</button>
@@ -304,11 +302,9 @@
 			</div>
 		</div>
 		<!-- Preview Panel -->
-		<div class="col-lg-6">
+		<div class="col-md-6">
 			<div class="row">
-				<div class="col-lg-1">
-				</div>
-				<div class="col-lg-10">
+				<div class="col-md-10 col-md-offset-1">
 					<form>
 						<div class="form-horizontal">
 				    		<div class="form-group">
@@ -317,87 +313,7 @@
 				  		</div>
 					</form>
 				</div>
-				<div class="col-lg-1">
-				</div>
 			</div>
-		</div> <!-- Preview Column -->
+		</div>
 	</div> <!-- Options/Preview row -->
-
-	<!-- Output Modal -->
-	<div id="addLevelModal" class="modal fade" role="dialog">
-		<div class="modal-dialog modal-sm">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Add Level</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-1">
-						</div>
-						<div class="col-lg-10">
-							<div class="form-inline">
-								<div class="button-group">
-									<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">None <span class="caret"></span></button>
-									<ul class="dropdown-menu" id="nestCol">
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-1">
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="col-lg-6 text-left">
-						<button type="button" class="btn btn-success" id="addLevel" data-dismiss="modal">Add Level</button>
-					</div>
-					<div class="col-lg-6 text-right">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- Output Modal -->
-	<div id="outputModal" class="modal fade" role="dialog">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">JSON Output</h4>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-lg-1">
-						</div>
-						<div class="col-lg-10">
-							<form>
-								<div class="form-horizontal">
-									<div class="form-group">
-										<textarea id=finalOutput class="form-control" rows="25" placeholder="JSON will display here" readonly></textarea>
-									</div>
-								</div>
-							</form>
-						</div>
-						<div class="col-lg-1">
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="col-lg-6 text-left">
-						<a id=downloadButton href=""><button type="button" class="btn btn-success">Download JSON</button></a>
-					</div>
-					<div class="col-lg-6 text-right">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-</div>
 {% endblock %}

@@ -3,6 +3,20 @@
 	font-size: 36px;
 }
 
+.navbar {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 15px;
+}
+
+/* Footer */
+footer {
+    margin-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+
 /* Body */
 #preview {
 	font-family: "consolas", "helvetica";

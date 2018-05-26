@@ -176,7 +176,8 @@ function getParams(preview, stage) {
 	// Only get output parameters when doing update or final output
 	if(stage == 'output'){
 		let rootNode = $('#root-node').val();
-		let ChildField = $('#nest-key').val();
+        let nameKey = $('#name-key').val();
+		let childKey = $('#child-key').val();
 		let avgFieldName = $('#avgFieldName').val();
 		let sumFieldName = $('#sumFieldName').val();
 
@@ -197,8 +198,8 @@ function getParams(preview, stage) {
 		colNames = colNames.substring(0, colNames.length - 1);
 
 		// List of all parameters
-		allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, colNames, rootNode, ChildField, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
-		fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "col_names", "root_node", "child_field", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
+		allFields = [csvSep, indexCol, headerSel, baseStructure, wrapperSel, colNames, rootNode, nameKey, childKey, sumField, sumFieldName, avgField, avgFieldName, preview, file_or_input];
+		fieldLabels = ["csv_sep", "index_col", "header_sel", "base_structure", "wrapper", "col_names", "root_node", "name_key", "child_key", "sum_field", "sum_field_name", "avg_field", "avg_field_name", "preview", "file_or_input"];
 	}
 
 	// Generate URL

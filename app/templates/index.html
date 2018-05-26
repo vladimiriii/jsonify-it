@@ -158,36 +158,22 @@
     									</div>
                                     </div>
 								</div>
-							</div> <!-- Buttons first row -->
+							</div>
+                            <!-- NESTING OPTIONS -->
 							<div class="row">
 								<div class="col-md-12">
-									<h4>Wrapper Options</h4>
+									<h4>Nesting Options</h4>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6">
-											<p>Include wrapper?</p>
-										</div>
-										<div class="col-md-6">
-											<div class="radio" id="wrapperSel">
-												<label class="radio-inline"><input type="radio" name="wrapper" value="true">Yes</label>
-											  	<label class="radio-inline"><input type="radio" name="wrapper" value="false" checked>No</label>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
+                            <div class="row">
 								<div class="col-md-6">
 									<div class="row">
 										<div class="col-md-6 text-left">
-											<p>Name Value:</p>
+											<p>Name Key:</p>
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<input type="text" class="form-control" id="root-node">
+												<input type="text" class="form-control" id="name-key">
 											</div>
 										</div>
 									</div>
@@ -199,15 +185,10 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<input type="text" class="form-control" id="nest-key">
+												<input type="text" class="form-control" id="child-key">
 											</div>
 										</div>
 									</div>
-								</div>
-							</div>  <!-- Buttons second row -->
-							<div class="row">
-								<div class="col-md-12">
-									<h4>Nesting Options</h4>
 								</div>
 							</div>
 							<div class="row">
@@ -272,6 +253,40 @@
 									</div>
 								</div>
 							</div>
+                            <!-- WRAPPER OPTIONS -->
+							<div class="row">
+								<div class="col-md-12">
+									<h4>Wrapper Options</h4>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="row">
+										<div class="col-md-6">
+											<p>Include wrapper?</p>
+										</div>
+										<div class="col-md-6">
+											<div class="radio" id="wrapperSel">
+												<label class="radio-inline"><input type="radio" name="wrapper" value="true">Yes</label>
+											  	<label class="radio-inline"><input type="radio" name="wrapper" value="false" checked>No</label>
+											</div>
+										</div>
+									</div>
+								</div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 text-left">
+                                            <p>Name Value:</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="root-node">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+							</div>
+                            <!-- UPDATE BUTTON -->
 							<div class="row">
 								<div class="col-md-12 text-right">
 									<button type="button" class="btn btn-success" id="updatePreview">Update Preview

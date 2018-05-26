@@ -26,9 +26,9 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
 
     #Loop through levels
     i = 0
-        
+
     for level in levels:
-            
+
         # Create empty children subarray
         array[children].insert(i, {})
         array[children][i][children] = {}
@@ -45,7 +45,7 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
         elif current_level == total_levels:
             other_values = data.loc[data[colname] == level, : ].to_dict(orient = base_structure)
             array[children][i][children] = other_values
-        
+
         # Add Meta Values for current Level
         array[children][i][name] = level
         if sum_col is not None:
@@ -61,7 +61,7 @@ def inner_loop(data, array, current_level, total_levels, nest_cols, name, childr
 
 class CSVtoJSON:
     def __init__(self):
-        
+
         # Get arguments
         self.csv_sep = request.args.get('csv_sep', ",")
         self.index_col = request.args.get('index_col', None)
@@ -72,90 +72,90 @@ class CSVtoJSON:
         self.filter_val = request.args.get('filter_val', None)
         self.limit = request.args.get('limit', None)
         self.root_node = request.args.get('root_node', "Data")
-        self.name_field = request.args.get('name_field', "name")
-        self.child_field = request.args.get('child_field', "children")
+        self.name_key = request.args.get('name_key', "name")
+        self.child_key = request.args.get('child_key', "children")
         self.sum_field = request.args.get('sum_field', None)
         self.sum_field_name = request.args.get('sum_field_name', "sum")
         self.avg_field = request.args.get('avg_field', None)
         self.avg_field_name = request.args.get('avg_field_name', "average")
         self.base_structure = request.args.get('base_structure', "records")
         self.file_or_input = request.args.get('file_or_input', 'file')
-        
+
         # Handle Tab separated files
         if self.csv_sep == "tab":
             self.csv_sep = "\t"
-        
+
         # Handle Boolean parameters
         if request.args.get('header_sel', True) == 'true':
             self.header_sel = 0
         else:
             self.header_sel = None
-        
+
         if request.args.get('wrapper', False) == 'true':
             self.wrapper = True
-        else: 
+        else:
             self.wrapper = False
-        
+
         if request.args.get('preview', False) == 'true':
             self.preview = True
-        else: 
+        else:
             self.preview = False
-        
+
     def load_data(self):
-        
+
         if self.file_or_input == "file":
             # Get filepath
             APP_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             APP_STATIC = os.path.join(APP_ROOT, 'data')
             file_n = self.file_name + ".csv"
             self.filepath = os.path.join(APP_STATIC, file_n)
-            
+
             # Load in csv Dataset
             self.data = pd.read_csv(self.filepath, header=self.header_sel, delimiter=self.csv_sep, quoting=0, index_col=None)
-            
+
         elif self.file_or_input == "input":
             input_data = StringIO(request.form['data'])
             self.data = pd.DataFrame.from_csv(path = input_data, header=self.header_sel, sep=self.csv_sep, index_col=None, encoding='utf-8')
-        
+
         # Apply filters
         if self.filter_col is not None and self.filter_val is not None:
             self.data = self.data.loc[self.data.loc[ : , self.filter_col].astype(str) == str(self.filter_val), : ]
-        
-        # Apply specified row limit 
+
+        # Apply specified row limit
         if self.limit is not None:
             self.data = self.data[ :int(self.limit)]
-        
+
         # Set index according to selected value
         if self.index_col is not None:
-            
+
             # Handle No Header Scenario
             if self.header_sel is None:
                 self.index_col = int(self.index_col)
-            
+
             self.data.set_index(self.index_col, inplace=True)
-        
+
         # Get only first 10 rows if preview
         if self.preview:
             self.data = self.data.iloc[0:10, : ]
-        
+
         # Check if column names were passed and use if able
         if self.col_names is not None:
             self.col_names = self.col_names.split(',')
             self.total_levels = len(self.col_names)
         else:
             self.total_levels = 0
-        
+
     def generate_array(self):
-        
+
         self.data = self.data.astype(object)
-        
-        # Handle no nesting scenario            
+
+        # Handle no nesting scenario
         if self.total_levels == 0:
             array = self.data.to_dict(orient = self.base_structure)
         else:
             #Initialize Array
-            array = {self.child_field : []}
-                    
+            array = {self.child_key : []}
+
             # Begin Recursion
             current_level = 1
             array = inner_loop(data = self.data
@@ -163,19 +163,19 @@ class CSVtoJSON:
                 , current_level = current_level
                 , total_levels  = self.total_levels
                 , nest_cols = self.col_names
-                , name = self.name_field
-                , children = self.child_field
+                , name = self.name_key
+                , children = self.child_key
                 , sum_col = self.sum_field
                 , sum_col_name = self.sum_field_name
                 , avg_col = self.avg_field
                 , avg_col_name = self.avg_field_name
                 , base_structure = self.base_structure
             )
-            
+
             # Remove outer layer
-            array = array[self.child_field]
+            array = array[self.child_key]
 
         if self.wrapper:
-            array = {self.name_field: self.root_node, self.child_field : array}
-    
+            array = {self.name_key: self.root_node, self.child_key : array}
+
         return array

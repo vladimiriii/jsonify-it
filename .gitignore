@@ -2,4 +2,4 @@
 app.wsgi
 venv
 config.cfg
-
+app/data/*

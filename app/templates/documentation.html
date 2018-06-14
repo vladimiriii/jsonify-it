@@ -8,21 +8,38 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<p>The parameters that can be passed in the URL are as follows:</p>
-			<ul>
-				<li>file_name - The name of the file (minus file type).</li>
-				<li>file_type - The file extemsion (only csv is currently handled).</li>
-				<li>group_by - [Optional] The number of levels to nest. Will assume columns are in correct order.</li>
-				<li>colnames - [Optional] A comma seperated list of columns to nest by. Will override group_by if provided.</li>
-				<li>filter_col - [Optional] The name of a column to filter the dataset on.</li>
-				<li>filter_val - [Optional] The value to look for in filter_col.</li>
-				<li>limit - [Optional] Limit the output to this many rows. 0 by default.</li>
-				<li>root_node - [Optional] Name of the root node in the JSON. Default is 'data'.</li>
-				<li>name_field - [Optional] The name of the key that stores the nested value at each level. Default is 'name'.</li>
-				<li>sum_field - [Optional] The column to sum at each level.</li>
-				<li>avg_field - [Optional] The column to average at each level.</li>
+			<p>This application sits on top of an API that generates the JSON based on a set of URL parameters. Instead of using the interface provided, you can get the processed data directly using a URL like this one: <i>jsonifyit.com/output?parameter1=something&amp;parameter2=somethingelse</i>...</p>
+            <p>The full range of parameters that can be passed in the URL are listed below.</p>
+            <br>
+            <h4>Input Options</h3>
+            <ul>
+                <li><strong>file_or_input</strong> - [String] Two possible values – file or input. Input if the data is being passed with the request, file if the data is sitting on the server already.</li>
+				<li><strong>file_name</strong> - [String, optional] The name of the file (minus file type) if file is selected instead of input. Required if file_or_input is set to "file".</li>
+                <li><strong>csv_sep</strong> - [String, optional] The character used to delimit the data. Defaults to ",".</li>
+                <li><strong>header_sel</strong> - [Boolean, optional] Whether the first row should be considered a header row. Defaults to True.</li>
+                <li><strong>index_col</strong> - [String, optional] The name of the index column, if there is one. Having an index column will impact that structure of the JSON differently depending on the base_structure specified.</li>
+                <li><strong>filter_col</strong> - [String, optional] The name of a column to filter the dataset on.</li>
+				<li><strong>filter_val</strong> - [String, optional] The value to look for in filter_col.</li>
+				<li><strong>limit</strong> - [Integer, optional] Only the first X rows of the dataset will be processed to create the JSON.</li>
+            </ul>
+            <br>
+            <h4>Output Options</h3>
+            <ul>
+                <li><strong>base_structure</strong> - [String, optional] The structure of the JSON (inside the nesting). Based on the <a href="https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.to_dict.html">pandas DataFrame.to_dict method</a> options. Defaults to "records".</li>
+				<li><strong>group_by</strong> - [Integer, optional] Nests the first X columns of the dataset.</li>
+				<li><strong>col_names</strong> - [String, optional] A comma seperated list of columns to nest by. Will override group_by if provided.</li>
+				<li><strong>name_key</strong> - [String, optional] The name of the key that stores the nested value at each level. Default is "name".</li>
+                <li><strong>child_key</strong> - [String, optional] The name of the key that stores the nested array of data at each level. Default is "children".</li>
+				<li><strong>sum_field</strong> - [String, optional] The column to sum at each level of nesting.</li>
+                <li><strong>sum_field_name</strong> - [String, optional] The name of the key for the summed value at each level of nesting.</li>
+				<li><strong>avg_field</strong> - [String, optional] The column to average at each level of nesting.</li>
+                <li><strong>avg_field_name</strong> - [String, optional] The name of the key for the averaged value at each level of nesting.</li>
+                <li><strong>wrapper</strong> - [Boolean, optional] Whether to wrap the JSON in a outer layer. If True, child_key will determine the key used. Defaults to False.</li>
+                <li><strong>root_node</strong> - [String, optional] Value for the name key in the wrapper layer of the JSON (if wrapper is set to True). Defaults to "data".</li>
 			</ul>
-			<p>Please note - only the file_name and file_type fields are mandatory.</p>
+            <br>
+            <h4>Issues</h4>
+            <p>Something not working or not working as described? Please raise an issue on <a href="https://github.com/vladimiriii/jsonify-it">the repo</a>.
 		</div>
 	</div>
 </div>

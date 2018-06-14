@@ -86,7 +86,7 @@ class CSVtoJSON:
             self.csv_sep = "\t"
 
         # Handle Boolean parameters
-        if request.args.get('header_sel', True) == 'true':
+        if request.args.get('header_sel', 'true') == 'true':
             self.header_sel = 0
         else:
             self.header_sel = None

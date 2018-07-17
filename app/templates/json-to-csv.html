@@ -1,14 +1,13 @@
-{% extends "csv-to-json-layout.html" %}
+{% extends "json-to-csv-layout.html" %}
 {% block body %}
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h1>Flexible CSV to JSON converter with Nesting</h1>
+			<h1>Flexible JSON to CSV converter</h1>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1 text-justified">
-            <p>JSONify It is a CSV to JSON converter designed to help you easily convert tabular data from spreadsheets, CSV files or any delimited file into JSON. What makes JSONify It stand out from other CSV to JSON converters available online is its ability to generate nested JSON. This is particularly useful for those looking to create multilevel visualizations such as <a href="https://bost.ocks.org/mike/treemap/" target="_blank">zoomable/drilldown treemaps</a> and <a href="https://carrotsearch.com/foamtree/" target="_blank">Foamtrees</a>.</p>
-            <p>There are two ways of using this application. The first is to use the interface provided here to do one-off conversions of delimited data to JSON, with or without nesting. The second way is to fork <a href="https://github.com/vladimiriii/jsonify-it">the repo</a> and set it up on your server. This will then allow it to be used as an API to feed JSON directly into applications that need dynamically generated JSON.</p>
+            <p>Easily convert your JSON data into CSVs with this flexible converter.</p>
 		</div>
 	</div>
 	<div class="row">
@@ -17,12 +16,12 @@
 			  <div class="form-horizontal">
 			      <div class="form-group">
 					  <h3>Step 1. Enter Data</h3>
-					  <textarea class="form-control" id="CSVinput" rows="16" placeholder="Paste data here"></textarea>
+					  <textarea class="form-control" id="JSONinput" rows="16" placeholder="Paste data here"></textarea>
 			      </div>
 			  </div>
 			</form>
 		</div>
-	</div> <!-- CSV Input Row -->
+	</div> <!-- JSON Input Row -->
 	<div class="row">
 		<div class="col-md-12 text-center">
 			<button type="button" id="process-data" class="btn btn-primary btn-lg">Preprocess <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
@@ -34,7 +33,7 @@
 			<h3>Input and Output Options</h3>
 		</div>
 		<div class="col-md-6">
-			<h3>JSON Preview</h3>
+			<h3>CSV Preview</h3>
 		</div>
     </div>
 	<div class="row">

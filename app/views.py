@@ -14,10 +14,13 @@ documentation = Blueprint('documentation', __name__)
 def home_page():
     return render_template('index.html')
 
+@landing_page.route('/json-to-csv', methods=['GET'])
+def json_to_csv_page():
+    return render_template('json-to-csv.html')
+
 @documentation.route('/documentation', methods=['GET'])
 def doc_page():
     return render_template('documentation.html')
-
 
 @output_page.route('/output', methods=['GET', 'POST'])
 def output_data():
@@ -30,8 +33,8 @@ def output_data():
 
     except:
         return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
-        
-        
+
+
 # @output_page.route('/api/tojson', methods=['POST'])
 # def to_json():
 #     return request.data

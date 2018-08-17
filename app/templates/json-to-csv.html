@@ -2,333 +2,61 @@
 {% block body %}
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<h1>Flexible JSON to CSV converter</h1>
-		</div>
+				<h1>JSON to CSV converter</h1>
+			</div>
 	</div>
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1 text-justified">
-            <p>Easily convert your JSON data into CSVs with this flexible converter.</p>
+		<div class="col-md-8 col-md-offset-2 text-justified">
+    <p>Easily convert your JSON data into CSVs with this flexible converter.</p>
 		</div>
 	</div>
+	<div class="row"> <!-- JSON Input Row -->
+		<div class="col-md-8 col-md-offset-2">
+			  <h3>JSON Input</h3>
+			  <textarea class="form-control" id="JSONinput" rows="16" placeholder="Paste data here"></textarea>
+		</div>
+	</div>
+	<br>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<form>
-			  <div class="form-horizontal">
-			      <div class="form-group">
-					  <h3>Step 1. Enter Data</h3>
-					  <textarea class="form-control" id="JSONinput" rows="16" placeholder="Paste data here"></textarea>
-			      </div>
-			  </div>
-			</form>
+			<div class="row">
+				<div class="col-md-2">
+					<p>Delimiting char(s):</p>
+				</div>
+				<div class="col-md-1">
+					<div class="form-group">
+						<input type="text" class="form-control text-center" id="csvSep" value=",">
+					</div>
+				</div>
+				<div class="col-md-2 col-md-offset-2">
+					<p>Wrap values in quotes?</p>
+				</div>
+				<div class="col-md-5">
+					<div class="radio" id="quote-select">
+						<label class="radio-inline"><input type="radio" name="quote" value="minimal" checked>Only where needed</label>
+						<label class="radio-inline"><input type="radio" name="quote" value="non_numeric">All non-numeric values</label>
+						<label class="radio-inline"><input type="radio" name="quote" value="all">All values</label>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div> <!-- JSON Input Row -->
+	</div>
+	<br>
 	<div class="row">
 		<div class="col-md-12 text-center">
-			<button type="button" id="process-data" class="btn btn-primary btn-lg">Preprocess <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button>
+			<button type="button" id="process-data" class="btn btn-primary btn-lg">Convert Data!
+				<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+			</button>
 		</div>
-	</div> <!-- Preprocess button row -->
+	</div>
 	<br>
-	<div class="row" id="outputOptions">
-		<div class="col-md-6">
-			<h3>Input and Output Options</h3>
-		</div>
-		<div class="col-md-6">
-			<h3>CSV Preview</h3>
+	<div class="row" id="output">
+		<div class="col-md-8 col-md-offset-2">
+			<h3>Output</h3>
 		</div>
     </div>
 	<div class="row">
-		<div class="col-md-6">
-			<div class="panel-group" id="accordion">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-								Step 2. Refine Input Options (optional)
-							</a>
-						</h3>
-					</div>
-					<div id="collapseOne" class="panel-collapse collapse in">
-						<div class="panel-body">
-							<!-- Input Options -->
-							<div class="row">
-								<div class="col-md-4">
-                                    <div class="row">
-    									<div class="col-md-6">
-    										<p>Separator:</p>
-    									</div>
-    									<div class="col-md-6">
-    										<div class="form-group">
-    											<input type="text" class="form-control text-center" id="csvSep">
-    										</div>
-    									</div>
-                                    </div>
-								</div>
-								<div class="col-md-5">
-                                    <div class="row">
-    									<div class="col-md-4 text-left">
-    										<p>Header:</p>
-    									</div>
-    									<div class="col-md-8">
-    										<div class="radio" id="headerSel">
-    											<label class="radio-inline"><input type="radio" name="header" value="true" checked>Yes</label>
-    										  	<label class="radio-inline"><input type="radio" name="header" value="false">No</label>
-    										</div>
-    									</div>
-                                    </div>
-								</div>
-								<div class="col-md-3 text-right">
-									<button type="button" class="btn btn-primary" id="reprocessData">Reprocess
-										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Output Options -->
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">Step 3. Set Output Options</a>
-						</h3>
-					</div>
-					<div id="collapseTwo" class="panel-collapse collapse">
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-12">
-									<h4>Basic Output Options</h4>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Base Structure:</p>
-										</div>
-										<div class="col-md-6 text-right">
-											<div class="form-inline">
-												<div class="button-group">
-													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle">Records
-														<span class="caret"></span>
-													</button>
-													<ul class="dropdown-menu" id="baseStr">
-														<li>
-															<input type="radio" id="ex1_1" name="ex1" value="records" checked>
-															<label for="ex1_1">Records </label>
-														</li>
-														<li>
-															<input type="radio" id="ex1_2" name="ex1" value="split">
-															<label for="ex1_2">Split </label>
-														</li>
-														<li>
-															<input type="radio" id="ex1_3" name="ex1" value="index">
-															<label for="ex1_3">Index </label>
-														</li>
-														<li>
-															<input type="radio" id="ex1_4" name="ex1" value="dict">
-															<label for="ex1_4">Dict </label>
-														</li>
-														<li>
-															<input type="radio" id="ex1_5" name="ex1" value="list">
-															<label for="ex1_5">List </label>
-														</li>
-														<li>
-															<input type="radio" id="ex1_6" name="ex1" value="series">
-															<label for="ex1_6">Series </label>
-														</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-                                    <div class="row">
-    									<div class="col-md-6">
-    										<p>Index:</p>
-    									</div>
-    									<div class="col-md-6">
-    										<div class="form-inline">
-    											<div class="button-group">
-    												<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="indexBtn">None <span class="caret"></span></button>
-    												<ul class="dropdown-menu" id="indexCol">
-    												</ul>
-    											</div>
-    										</div>
-    									</div>
-                                    </div>
-								</div>
-							</div>
-                            <!-- NESTING OPTIONS -->
-							<div class="row">
-								<div class="col-md-12">
-									<h4>Nesting Options</h4>
-								</div>
-							</div>
-                            <div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Name Key:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<input type="text" class="form-control" id="name-key">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Children Key:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<input type="text" class="form-control" id="child-key">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-12">
-											<div style="margin-top: -8px; margin-left: 10px" class="block__list block__list_words">
-												<ul id="editable">
-												</ul>
-												<button class="btn btn-default" id="addUser" data-toggle="modal" data-target="#addLevelModal">Add Level</button>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Column to Sum:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-inline">
-												<div class="button-group">
-													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="sumFieldBtn">None <span class="caret"></span></button>
-													<ul class="dropdown-menu" id="sumField">
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-lg-6 text-left">
-											<p>Field Name:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<input type="text" class="form-control" id="sumFieldName">
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Average Field:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-inline">
-												<div class="button-group">
-													<button data-toggle="dropdown" class="btn btn-default dropdown-toggle" id="avgFieldBtn">None <span class="caret"></span></button>
-													<ul class="dropdown-menu" id="avgField"></ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6 text-left">
-											<p>Field Name:</p>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<input type="text" class="form-control" id="avgFieldName">
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-                            <!-- WRAPPER OPTIONS -->
-							<div class="row">
-								<div class="col-md-12">
-									<h4>Wrapper Options</h4>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-6">
-									<div class="row">
-										<div class="col-md-6">
-											<p>Include wrapper?</p>
-										</div>
-										<div class="col-md-6">
-											<div class="radio" id="wrapperSel">
-												<label class="radio-inline"><input type="radio" name="wrapper" value="true">Yes</label>
-											  	<label class="radio-inline"><input type="radio" name="wrapper" value="false" checked>No</label>
-											</div>
-										</div>
-									</div>
-								</div>
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-6 text-left">
-                                            <p>Name Value:</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="root-node">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-							</div>
-                            <!-- UPDATE BUTTON -->
-							<div class="row">
-								<div class="col-md-12 text-right">
-									<button type="button" class="btn btn-success" id="updatePreview">Update Preview
-										<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Step 4. Get final Output</a>
-						</h3>
-					</div>
-					<div id="collapseThree" class="panel-collapse collapse">
-						<div class="panel-body">
-							<!-- Convert Button -->
-							<div class="row text-center">
-								<button type="button" id="convertData" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#outputModal">JSONify It!
-									<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Preview Panel -->
-		<div class="col-md-6">
-			<div class="row">
-				<div class="col-md-10 col-md-offset-1">
-					<form>
-						<div class="form-horizontal">
-				    		<div class="form-group">
-						  		<textarea id="preview" class="form-control" rows="39" readonly></textarea>
-				      		</div>
-				  		</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div> <!-- Options/Preview row -->
+		<textarea id="csv-output" class="col-md-8 col-md-offset-2">
+		</textarea>
+	</div>
 {% endblock %}

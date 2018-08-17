@@ -4,6 +4,7 @@ import json
 import os
 from flask import Blueprint, jsonify, render_template, session, redirect, url_for, current_app, request
 import app.lib.CSVtoJSON as cj
+from app.lib.JSONtoCSV import *
 
 # Define the blueprint:
 landing_page = Blueprint('landing_page', __name__)
@@ -34,7 +35,22 @@ def output_data():
     except:
         return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
 
+@output_page.route('/process-json-to-csv', methods=['POST'])
+def process_json():
+    # try:
+    input = json.loads(request.data)
 
+    output = json_to_csv(input)
+    # print(output)
+    # # data_req = cj.JSONtoCSV()
+    # # data_req.load_data()
+    # # array = data_req.generate_array()
+    # array = {"csvData": "foobar"}
+
+    return pd.io.json.dumps(output)
+
+    # except:
+    #     return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
 # @output_page.route('/api/tojson', methods=['POST'])
 # def to_json():
 #     return request.data

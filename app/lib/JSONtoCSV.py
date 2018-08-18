@@ -2,7 +2,6 @@
 import pandas as pd
 import os, shutil, re, csv
 import json
-# from flask import Blueprint, jsonify, render_template, session, redirect, url_for, current_app, request
 
 import sys
 if sys.version_info[0] < 3:
@@ -121,7 +120,7 @@ def json_to_csv(data):
     index_label = ""
 
     # Fix date columns
-    date_cols = None #['dob']
+    date_cols = None
     date_format = "%m-%d-%Y"
     if date_cols is not None:
         for col in date_cols:
@@ -146,146 +145,3 @@ def json_to_csv(data):
     output = df.to_csv(sep=delimiter, header=header, index=index, index_label=index_label, date_format=date_format, quoting=quotes)
 
     return output
-
-#-----------------------------------------------
-# TEST JSON
-#-----------------------------------------------
-
-# TEST JSON
-# test_json = '''{
-#   "columns": [
-#     "name",
-#     "dep",
-#     "age",
-#     "sex"
-#   ],
-#   "index": [
-#     1,
-#     2,
-#     3,
-#     4
-#   ],
-#   "data": [
-#     [
-#       "Jane",
-#       "HR",
-#       24,
-#       "F"
-#     ],
-#     [
-#       "Paul",
-#       "HR",
-#       56,
-#       "M"
-#     ],
-#     [
-#       "Anne",
-#       "Sales",
-#       44,
-#       "F"
-#     ],
-#     [
-#       "John",
-#       "Sales",
-#       35,
-#       "M"
-#     ]
-#   ]
-# }'''
-
-# test_json = '''[
-#   {
-#     "d": 1,
-#     "b": 1,
-#     "a": 1,
-#     "c": 1
-#   },
-#   {
-#     "d": 2,
-#     "b": 2,
-#     "a": 2,
-#     "c": 2
-#   },
-#   {
-#     "d": 3,
-#     "b": 3,
-#     "a": 3,
-#     "c": 3
-#   }
-# ]'''
-
-# test_json = '''{
-#   "dep": [
-#     "HR",
-#     "HR",
-#     "Sales",
-#     "Sales"
-#   ],
-#   "name": [
-#     'Jane',
-#     "Paul"
-#     "Anne",
-#     'John'
-#   ]
-#   "age": [
-#     24,
-#     56,
-#     44,
-#     35
-#   ],
-#   "sex": [
-#     "F",
-#     "M"
-#     "F",
-#     'M'
-#   ],
-#   "dob": [
-#     "2001-01-03",
-#     "1979-11-30",
-#     "1965-07-01",
-#     "1984-08-29"
-#   ]
-# }'''
-
-# test_json = """[
-#   {
-#     "children": [
-#       {
-#         "id": 1,
-#         "dep": "HR",
-#         'name': "Jane",
-#         "age": 24,
-#         "sex": "F"
-#       },
-#       {
-#         "id": 2,
-#         "dep": "HR",
-#         "name": "Paul",
-#         "age": 56,
-#         "sex": "M"
-#       }
-#     ],
-#     "name": "HR",
-#     "count": 2
-#   },
-#   {
-#     "children": [
-#       {
-#         "id": 3,
-#         "dep": "Sales",
-#         "name": "Anne",
-#         "age": 44,
-#         "sex": "F"
-#       },
-#       {
-#         "id": 4,
-#         "dep": "Sales",
-#         "name": "John",
-#         "age": 35,
-#         "sex": "M"
-#       }
-#     ],
-#     "name": "Sales",
-#     "count": 2
-#   }
-# ]"""

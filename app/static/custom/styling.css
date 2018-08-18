@@ -234,6 +234,10 @@ img {
 	/* white-space: pre-wrap; */
 }
 
+label {
+	font-weight: normal;
+}
+
 /* Responsivity */
 @media screen and (max-width: 992px) {
     .navbar-brand {

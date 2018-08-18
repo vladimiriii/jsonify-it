@@ -20,11 +20,15 @@ $(document).ready(function(){
 		// Wrap in quotes?
 		let includeQuotes = getRadioVal("quote-select");
 
+		// Transpose data
+		let transpose = $('#transpose-checkbox').is(":checked");
+
 		// Combine into object
 		let info = {
 			"json_data": jsonData,
 			"sep": CSVsep,
-			"quotes": includeQuotes
+			"quotes": includeQuotes,
+			"transpose": transpose
 		}
 
 		// Process the data

@@ -83,9 +83,7 @@ def filter_and_format(raw_df, columns=None, min_idx=None, max_idx=None, filter_c
         if filter_col is not None and filter_val is not None and filter_col in clean_df.columns:
             clean_df = clean_df.loc[clean_df[filter_col] == filter_val]
 
-        # Transpose
-        if transpose:
-            clean_df = clean_df.transpose()
+
 
         return clean_df
     except:
@@ -107,26 +105,24 @@ def json_to_csv(data):
         error = "Could not understand data structure."
         return error
 
-    # Filter and Transform
+    # Unused options
     columns = None
-    transpose = False
-    max_idx = 3
+    max_idx = None
     min_idx = None
     filter_col = None
     filter_val = None
 
-    date_cols = ['dob']
-    date_format = "%m-%d-%Y"
-
-    df = filter_and_format(df, columns=columns, min_idx=min_idx, max_idx=max_idx, filter_col=filter_col, filter_val=filter_val, transpose=transpose)
+    df = filter_and_format(df, columns=columns, min_idx=min_idx, max_idx=max_idx, filter_col=filter_col, filter_val=filter_val)
 
     # OUTPUT OPTIONS
     delimiter = data['sep']
     header = True
-    index=True
-    index_label="Foo"
+    index = False
+    index_label = ""
 
     # Fix date columns
+    date_cols = None #['dob']
+    date_format = "%m-%d-%Y"
     if date_cols is not None:
         for col in date_cols:
             df[col] = pd.to_datetime(df[col])
@@ -141,6 +137,12 @@ def json_to_csv(data):
     else:
         quotes = None
 
+    # Transpose dataset?
+    if data['transpose']:
+        df = df.transpose()
+        header = False
+
+    # Create final csv
     output = df.to_csv(sep=delimiter, header=header, index=index, index_label=index_label, date_format=date_format, quoting=quotes)
 
     return output

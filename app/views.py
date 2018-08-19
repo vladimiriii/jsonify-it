@@ -37,15 +37,12 @@ def output_data():
 
 @output_page.route('/process-json-to-csv', methods=['POST'])
 def process_json():
-    # try:
-    input = json.loads(request.data)
+    try:
+        input = json.loads(request.data.decode('utf-8'))
 
-    output = json_to_csv(input)
+        output = json_to_csv(input)
 
-    return pd.io.json.dumps(output)
+        return pd.io.json.dumps(output)
 
-    # except:
-    #     return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
-# @output_page.route('/api/tojson', methods=['POST'])
-# def to_json():
-#     return request.data
+    except:
+        return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"

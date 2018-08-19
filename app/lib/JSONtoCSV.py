@@ -94,14 +94,14 @@ def json_to_csv(data):
     try:
         dd = json_to_dict(data['json_data'])
     except:
-        error = "JSON format does not appear to be correct."
+        error = {"error": "JSON format does not appear to be correct."}
         return error
 
     # Convert to DataFrame
     try:
         df = convert_to_dataframe(dd)
     except:
-        error = "Could not understand data structure."
+        error = {"error": "Could not understand data structure."}
         return error
 
     # Unused options
@@ -141,7 +141,11 @@ def json_to_csv(data):
         df = df.transpose()
         header = False
 
-    # Create final csv
-    output = df.to_csv(sep=delimiter, header=header, index=index, index_label=index_label, date_format=date_format, quoting=quotes)
+    try:
+        # Create final csv
+        output = df.to_csv(sep=delimiter, header=header, index=index, index_label=index_label, date_format=date_format, quoting=quotes)
+    except:
+        error = {"error": "Could not output data."}
+        return error
 
     return output

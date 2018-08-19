@@ -41,11 +41,6 @@ def process_json():
     input = json.loads(request.data)
 
     output = json_to_csv(input)
-    # print(output)
-    # # data_req = cj.JSONtoCSV()
-    # # data_req.load_data()
-    # # array = data_req.generate_array()
-    # array = {"csvData": "foobar"}
 
     return pd.io.json.dumps(output)
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
-import os, shutil, re, csv
+import re
+import csv
 import json
 
 import sys
@@ -9,7 +10,7 @@ if sys.version_info[0] < 3:
 else:
     from io import StringIO
 
-# Convert from JSON to Python object
+
 def json_to_dict(raw_json, retry=False):
     try:
         data_dict = json.loads(raw_json)
@@ -33,7 +34,7 @@ def json_to_dict(raw_json, retry=False):
         else:
             raise
 
-# Convert from Dictionary to Pandas DataFrame
+
 def convert_to_dataframe(raw_data):
 
     # Determine Structure
@@ -60,10 +61,8 @@ def convert_to_dataframe(raw_data):
 
     return output_df
 
-# Filter DataFrame
-def filter_and_format(raw_df, columns=None, min_idx=None, max_idx=None, filter_col=None, filter_val=None, transpose=False):
 
-    # If any step deosn't work, just return original DataFrame unchanged
+def filter_and_format(raw_df, columns=None, min_idx=None, max_idx=None, filter_col=None, filter_val=None, transpose=False):
     try:
         # Select appropriate columns
         if type(columns) is list and len(columns) > 0:
@@ -82,22 +81,18 @@ def filter_and_format(raw_df, columns=None, min_idx=None, max_idx=None, filter_c
         if filter_col is not None and filter_val is not None and filter_col in clean_df.columns:
             clean_df = clean_df.loc[clean_df[filter_col] == filter_val]
 
-
-
         return clean_df
     except:
         return raw_df
 
-def json_to_csv(data):
 
-    # Convert to Dictionary
+def json_to_csv(data):
     try:
         dd = json_to_dict(data['json_data'])
     except:
         error = {"error": "JSON format does not appear to be correct."}
         return error
 
-    # Convert to DataFrame
     try:
         df = convert_to_dataframe(dd)
     except:

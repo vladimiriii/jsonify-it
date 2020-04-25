@@ -217,7 +217,6 @@ function getParams(preview, stage) {
 	// Generate URL based on specified parameters
 	let url = window.location.href;
 	url = url + "output?" + urlParams;
-	console.log(url);
 	return url;
 }
 

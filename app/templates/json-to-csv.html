@@ -1,75 +1,75 @@
 {% extends "json-to-csv-layout.html" %}
 {% block body %}
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="row">
-				<div class="col-md-12 text-center">
-						<h1>JSON to CSV converter</h1>
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		<div class="row">
+			<div class="col-md-12 text-center">
+					<h1>JSON to CSV converter</h1>
+				</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12 text-justified">
+	    		<p>Convert your JSON to CSV or any delimited format with options for quoting, and transposing the final result. The converter can also auto-correct some formatting errors such as missing commas and cases where apostrophes ( ' ) have been used instead of speech marks ( " ).</p>
+			</div>
+		</div>
+		<div class="row"> <!-- JSON Input Row -->
+			<div class="col-md-12">
+				  <h3>JSON Input</h3>
+				  <textarea class="form-control" id="JSONinput" rows="16" placeholder="Paste data here"></textarea>
+			</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-2" style="text-align: center">
+				<p>Delimiting char:</p>
+			</div>
+			<div class="col-md-1" style="text-align: left">
+				<div class="form-group">
+					<input maxlength="1" type="text" class="form-control text-center" id="csvSep" value=",">
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12" style="text-align: center">
+						<p>Wrap values in quotes?</p>
 					</div>
-			</div>
-			<div class="row">
-				<div class="col-md-12 text-justified">
-		    		<p>Convert your JSON to CSV or any delimited format with options for quoting, and transposing the final result. The converter can also auto-correct some formatting errors such as missing commas and cases where apostrophes ( ' ) have been used instead of speech marks ( " ).</p>
 				</div>
-			</div>
-			<div class="row"> <!-- JSON Input Row -->
-				<div class="col-md-12">
-					  <h3>JSON Input</h3>
-					  <textarea class="form-control" id="JSONinput" rows="16" placeholder="Paste data here"></textarea>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-md-2" style="text-align: center">
-					<p>Delimiting char:</p>
-				</div>
-				<div class="col-md-1" style="text-align: left">
-					<div class="form-group">
-						<input maxlength="1" type="text" class="form-control text-center" id="csvSep" value=",">
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-md-12" style="text-align: center">
-							<p>Wrap values in quotes?</p>
+				<div class="row">
+					<div class="col-md-12" style="text-align: center">
+						<div class="radio" id="quote-select">
+							<label class="radio-inline"><input type="radio" name="quote" value="minimal" checked>Only where needed</label>
+							<label class="radio-inline"><input type="radio" name="quote" value="non_numeric">All non-numeric values</label>
+							<label class="radio-inline"><input type="radio" name="quote" value="all">All values</label>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12" style="text-align: center">
-							<div class="radio" id="quote-select">
-								<label class="radio-inline"><input type="radio" name="quote" value="minimal" checked>Only where needed</label>
-								<label class="radio-inline"><input type="radio" name="quote" value="non_numeric">All non-numeric values</label>
-								<label class="radio-inline"><input type="radio" name="quote" value="all">All values</label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3" style="text-align: center">
-					<input class="form-check-input" type="checkbox" value="true" id="transpose-checkbox">
-  					<label class="form-check-label" for="transpose-checkbox">
-						Transpose results?
-  					</label>
 				</div>
 			</div>
-			<br>
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<button type="button" id="process-data" class="btn btn-primary btn-lg">Convert Data!
-						<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-					</button>
-				</div>
+			<div class="col-md-3" style="text-align: center">
+				<input class="form-check-input" type="checkbox" value="true" id="transpose-checkbox">
+					<label class="form-check-label" for="transpose-checkbox">
+					Transpose results?
+					</label>
 			</div>
-			<br>
-			<div class="row" id="output">
-				<div class="col-md-12">
-					<h3>Output</h3>
-				</div>
-		    </div>
-			<div class="row">
-				<div class="col-md-12">
-					<textarea id="csv-output" class="form-control" rows="20" readonly></textarea>
-				</div>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<button type="button" id="process-data" class="btn btn-primary btn-lg">Convert Data!
+					<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		<br>
+		<div class="row" id="output">
+			<div class="col-md-12">
+				<h3>Output</h3>
+			</div>
+	    </div>
+		<div class="row">
+			<div class="col-md-12">
+				<textarea id="csv-output" class="form-control" rows="20" readonly></textarea>
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}

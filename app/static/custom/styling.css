@@ -9,12 +9,57 @@
     padding-right: 15px;
 }
 
+/* Body */
+.page-footer {
+	margin-top: 50px;
+}
+
 /* Footer */
-footer {
-    margin-top: 20px;
-    padding-top: 40px;
+.page-footer {
+    text-align: center;
     padding-bottom: 20px;
-    font-size: 18px;
+    width: 100%;
+    background-color: #f8f5f0;
+}
+
+.share-btn {
+    display: inline-block;
+    border-radius: 50px;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 0.5em;
+    width: 2.8em;
+    opacity: 0.9;
+    outline: none;
+    text-align: center;
+}
+
+.share-btn.github:hover {
+    color: #FFFFFF;
+    background-color: #000;
+    border: 2px solid #000;
+}
+
+.share-btn.twitter:hover {
+    color: #FFFFFF;
+    background-color: #00aced;
+    border: 2px solid #00aced;
+}
+
+.share-btn.home:hover {
+    color: #FFFFFF;
+    background-color: #FFA62D;
+    border: 2px solid #FFA62D;
+}
+
+p.document-links > a {
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+p.document-links > a:hover {
+    margin-bottom: 20px;
+    color: #6b9430;
 }
 
 /* Body */

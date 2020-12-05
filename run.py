@@ -1,13 +1,10 @@
-#!/usr/local/bin/python2.7
+# -*- coding: utf-8 -*-
 import argparse
 from app import create_app
 
 # Create the flask app.
 app = create_app()
 
-#-------------------------------------------
-# Run the App
-#-------------------------------------------
 if __name__ == '__main__':
     # Define the arguments.
     parser = argparse.ArgumentParser()
@@ -18,5 +15,3 @@ if __name__ == '__main__':
     # Parse arguemnts and run the app.
     args = parser.parse_args()
     app.run(debug=args.debug, host=args.host, port=args.port)
-
-   

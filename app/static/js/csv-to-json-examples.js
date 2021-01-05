@@ -60,7 +60,8 @@ function getJSONData(data, url) {
 		  	data: dataJson,
 			dataType: "text",
 			success: (response) => {
-                resolve(response);
+				const json = JSON.parse(response);
+                resolve(JSON.stringify(json, null, 2));
             },
             error: (response) => {
                 reject(response);

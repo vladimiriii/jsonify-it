@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<title>CSV to JSON Examples</title>
+	{% include 'includes/page-meta.html' %}
+	{% include 'includes/base-scripts.html' %}
+
+	<!-- Custom Scripts -->
+	<script defer type="text/javascript" src="{{ url_for('static',filename='js/csv-to-json-examples.js') }}?v=1.0"></script>
+	<script defer type="text/javascript" src="{{ url_for('static',filename='js/example-data.js') }}?v=1.0"></script>
+
+</head>
+<body id="page-top" class="index">
+    <div class="container-fluid">
+		{% include 'modules/navbar.html' %}
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<h1>CSV to JSON Examples</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2 text-justified">
+		      <p>JSONify It is a CSV to JSON converter designed to help you easily convert tabular data from spreadsheets, CSV files or any delimited file into JSON. What makes JSONify It stand out from other CSV to JSON converters available online is its ability to generate nested JSON. This is particularly useful for those looking to create multilevel visualizations such as <a href="https://bost.ocks.org/mike/treemap/" target="_blank">zoomable/drilldown treemaps</a> and <a href="https://carrotsearch.com/foamtree/" target="_blank">Foamtrees</a>, both of which require a specifically nested format of JSON to function.</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2" id='examples'>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Example 1. Simple Conversion</h3>
+						<p>Let's start off with a basic one</p>
+						<div class="row">
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-input-1" rows="16"></textarea>
+							</div>
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-output-1" rows="16"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Example 2. Alternate Structures</h3>
+						<p>Let's start off with a basic one</p>
+						<div class="row">
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-input-2" rows="16"></textarea>
+							</div>
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-output-2" rows="16"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Example 3. Nesting Basics</h3>
+						<p>Let's start off with a basic one</p>
+						<div class="row">
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-input-3" rows="16"></textarea>
+							</div>
+							<div class="col-md-6">
+					    		<textarea class="form-control" id="example-output-3" rows="16"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% include 'modules/footer.html' %}
+</body>
+</html>

@@ -9,6 +9,7 @@
 	<!-- Custom Scripts -->
 	<script defer type="text/javascript" src="{{ url_for('static',filename='js/csv-to-json-examples.js') }}?v=1.0"></script>
 	<script defer type="text/javascript" src="{{ url_for('static',filename='js/example-data.js') }}?v=1.0"></script>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='custom/examples.css') }}?v=1.0">
 
 </head>
 <body id="page-top" class="index">
@@ -22,6 +23,8 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2 text-justified">
 		      <p>JSONify It is a CSV to JSON converter designed to help you easily convert tabular data from spreadsheets, CSV files or any delimited file into JSON. What makes JSONify It stand out from other CSV to JSON converters available online is its ability to generate nested JSON. This is particularly useful for those looking to create multilevel visualizations such as <a href="https://bost.ocks.org/mike/treemap/" target="_blank">zoomable/drilldown treemaps</a> and <a href="https://carrotsearch.com/foamtree/" target="_blank">Foamtrees</a>, both of which require a specifically nested format of JSON to function.</p>
+			  <h3>Sample Data</h3>
+			  <p>The sample data used in these examples was generated using the very useful <a href="https://extendsclass.com/csv-generator.html">random CSV generator at ExtendsClass</a>.</p>
 			</div>
 		</div>
 		<div class="row">
@@ -29,13 +32,13 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Example 1. Simple Conversion</h3>
-						<p>Let's start off with a basic one</p>
+						<p>Let's start off with the simplest case. Converting your delimited data without changing any of the output options will give you a structure that has a "Base Structure" set to "records". This is an array of objects, with each object representing a row. This output is shown below.</p>
 						<div class="row">
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-input-1" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-input-1" rows="16"></textarea>
 							</div>
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-output-1" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-output-1" rows="16"></textarea>
 							</div>
 						</div>
 					</div>
@@ -43,29 +46,68 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Example 2. Alternate Structures</h3>
-						<p>Let's start off with a basic one</p>
+						<p>Maybe the "records" structure is not what you are looking for. In this case, the simplest way to significantly modify the output JSON is to change the "Base Structure" (under "Step 3. Output Options"). There are several options, and one is likely to fit what you want, or at least get close. The output shown below is for "list".</p>
 						<div class="row">
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-input-2" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-input-2" rows="16"></textarea>
 							</div>
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-output-2" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-output-2" rows="16"></textarea>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<h3>Example 3. Nesting Basics</h3>
-						<p>Let's start off with a basic one</p>
+						<h3>Example 3. Having an Index Column</h3>
+						<p>Next to the Base Structure option, you will notice an option for choosing a column to set as the Index. What this means is highly dependent on the Base Structure. For some structures (records, list) the index column will just be ignored. For others is will change the keys to the values in the index column or change the way the columns are divided up. Below is the output for "Dict" with the ID column set as the index column.</p>
 						<div class="row">
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-input-3" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-input-3" rows="16"></textarea>
 							</div>
 							<div class="col-md-6">
-					    		<textarea class="form-control" id="example-output-3" rows="16"></textarea>
+					    		<textarea readonly class="form-control" id="example-output-3" rows="16"></textarea>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Example 4. Nesting</h3>
+						<p>So this is probably what you have come here for – how do you add nesting? The nesting works using the values in one or more columns that you specify using the "Add Level" button under "Nesting Options". The converter will then group the rows based on the values in those columns, in the order they are specified (i.e. a new level of nesting for each column specified). The example below is nesting by country and profession, using the "records" Base Structure. Note: you can recorder the nested columns you have selected by clicking and dragging them.</p>
+						<div class="row">
+							<div class="col-md-6">
+					    		<textarea readonly class="form-control" id="example-input-4" rows="16"></textarea>
+							</div>
+							<div class="col-md-6">
+					    		<textarea readonly class="form-control" id="example-output-4" rows="16"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Example 5. Nesting with Additional Options</h3>
+						<p>In addition to adding levels of nesting, you also have some convenience options.</p>
+						<h4>Renaming Fields</h4>
+						<p>By default, the grouped rows will be provided with a key "children". If you want a different key, you can specify it by entering a value in the "Children Key" field. The group will also get a "name" key which specifies the value that is being grouped by. This can also be changed.</p>
+						<h4>Summary Statistics</h4>
+						<p>If you have numerical values, you can add summary statistics for each group. This is fairly limited at the moment: only one column and only a sum and an average.</p>
+						<p>The output below has been structured in the same way as Example 4, but with changed keys ("name" -> "groupedBy", "children" -> "records") and summary statistics added (for the ID column in both cases).</p>
+						<div class="row">
+							<div class="col-md-6">
+					    		<textarea readonly class="form-control" id="example-input-5" rows="16"></textarea>
+							</div>
+							<div class="col-md-6">
+					    		<textarea readonly class="form-control" id="example-output-5" rows="16"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<h3>Why is not working?</h3>
+						<p>There are certain combinations of structures and nesting that will simply not work when combined. When it doesn't work, you will get a very generic error message (sorry about that). In those cases, you will have to try a different combination.</p>
 					</div>
 				</div>
 			</div>

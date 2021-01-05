@@ -1,0 +1,21 @@
+const inputData = "ID,firstname,lastname,email,profession,country\n\
+1,Yetty,Madelene,Yetty.Madelene@gmail.com,developer,Mexico\n\
+2,Charlena,Dex,Charlena.Dex@gmail.com,firefighter,Canada\n\
+3,Leanna,Secrest,Leanna.Secrest@gmail.com,firefighter,US\n\
+4,Linzy,Arne,Linzy.Arne@gmail.com,firefighter,Canada\n\
+5,Anthia,Adamsen,Anthia.Adamsen@gmail.com,developer,US\n\
+6,Bobbi,Bearnard,Bobbi.Bearnard@gmail.com,lawyer,Mexico\n\
+7,Jaclyn,Meter,Jaclyn.Meter@gmail.com,firefighter,Canada\n\
+8,Andree,Moina,Andree.Moina@gmail.com,developer,Mexico\n\
+9,Penelopa,Travax,Penelopa.Travax@gmail.com,firefighter,US\n\
+10,Elka,Dalli,Elka.Dalli@gmail.com,doctor,Canada\n\
+11,Queenie,Thad,Queenie.Thad@gmail.com,developer,Mexico\n\
+12,Roxane,Henebry,Roxane.Henebry@gmail.com,firefighter,US\n\
+13,Riannon,Chobot,Riannon.Chobot@gmail.com,lawyer,Canada\n\
+14,Dotty,Jobi,Dotty.Jobi@gmail.com,doctor,US\n\
+15,Hope,Payson,Hope.Payson@gmail.com,developer,US\n\
+16,Theodora,McLaughlin,Theodora.McLaughlin@gmail.com,lawyer,US\n\
+17,Carlie,Yuille,Carlie.Yuille@gmail.com,firefighter,US\n\
+18,Myriam,Tannie,Myriam.Tannie@gmail.com,doctor,Canada\n\
+19,Ottilie,Ventre,Ottilie.Ventre@gmail.com,lawyer,Canada\n\
+20,Orsola,Darian,Orsola.Darian@gmail.com,doctor,Mexico"

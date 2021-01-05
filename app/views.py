@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, render_template, request
 import app.lib.CSVtoJSON as cj
 from app.lib.JSONtoCSV import json_to_csv
 
+
 # Define the blueprint:
 landing_page = Blueprint('landing_page', __name__)
 output_page = Blueprint('output_page', __name__)
@@ -23,6 +24,11 @@ def json_to_csv_page():
 @documentation.route('/documentation', methods=['GET'])
 def doc_page():
     return render_template('documentation.html')
+
+
+@documentation.route('/csv-to-json-examples', methods=['GET'])
+def examples_page():
+    return render_template('csv-to-json-examples.html')
 
 
 @output_page.route('/output', methods=['GET', 'POST'])

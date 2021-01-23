@@ -7,11 +7,13 @@
 	{% include 'includes/base-scripts.html' %}
 
 	<!-- Custom Scripts -->
-	<script defer type="text/javascript" src="{{ url_for('static',filename='js/csv-to-json-page-func.js') }}?v=1.1"></script>
+	<script defer type="text/javascript" src="{{ url_for('static',filename='js/csv-to-json-functions.js') }}?v=1.1"></script>
+	<script defer type="text/javascript" src="{{ url_for('static',filename='js/csv-to-json-onload.js') }}?v=1.0"></script>
 
 </head>
 
 <body id="page-top" class="index">
+	{% include 'includes/spinner.html' %}
     <div class="container-fluid">
 		{% include 'modules/navbar.html' %}
 	    {% block body %}

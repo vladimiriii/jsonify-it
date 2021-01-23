@@ -1,113 +1,67 @@
-// Universal Values
-const buttonsForRefresh = ["indexCol", "sumField", "avgField", "nestCol"];
+async function convertCSV(stage, readParams, updateDropdowns) {
+	$("#spinner").show();
 
-/*-------------------------------------
-On page ready
--------------------------------------*/
-$(document).ready(function(){
+	$("#" + stage).empty();
+	const CSVData = $('#CSVinput').val();
+	updateSeparator(CSVData);
 
-	let byId = function (id) { return document.getElementById(id); }
-
-	// Process Data Button
-	$('#process-data').click(function(){
-
-        // Reset drop downs and selected list
-        resetFields()
-
-		// Load the data
-		let CSVData = $('#CSVinput').val();
-
-		// Detect separator char
-		detectSep(CSVData);
-
-		// Get the parameters
-		let url = getParams(preview=true, stage="process");
-
-		// Process the data
-		const postTo = "#preview";
-		processData(CSVData, url, postTo);
-
-		// Populate dropdown lists
-		for (let i = 0; i < buttonsForRefresh.length; i++) {
-			populateDropdowns(CSVData, buttonsForRefresh[i]);
-        };
-
-		// Scroll Page Down
-		$('html, body').animate({scrollTop: $("#outputOptions").offset().top}, 1000);
-	});
-
-	// Reprocess Data Button
-	$('#reprocessData').click(function(){
-		// Load the data
-		let CSVData = $('#CSVinput').val();
-
-		// Get the parameters
-		let url = getParams(preview=true, stage="process");
-
-		// Process the data
-		const postTo = "#preview";
-		processData(CSVData, url, postTo);
-
-		// Populate dropdown lists
-		for(let i = 0; i < buttonsForRefresh.length; i++){
-			populateDropdowns(CSVData, buttonsForRefresh[i]);
-        };
-	});
-
-	// Adjustable List for Nesting
-	let editableList = Sortable.create(byId('editable'), {
-		animation: 150,
-		filter: '.js-remove',
-		onFilter: function (evt) {
-			evt.item.parentNode.removeChild(evt.item);
+	const url = generateParameterizedUrl(readParams, stage=="preview");
+	const response = await processData(CSVData, url);
+	try {
+		const json = JSON.stringify(JSON.parse(response), null, 2)
+		$("#" + stage).append(json);
+		if (stage == "finalOutput") {
+			generateDownload(json);  // Data always gets appended to window, then we dynamically generate download button
 		}
-	});
+		if (updateDropdowns) {
+			for (let i = 0; i < buttonsForRefresh.length; i++) {
+				populateDropdowns(CSVData, buttonsForRefresh[i]);
+			};
+		}
+	} catch {
+		$("#" + stage).append("Oops! Something went wrong. Please check input and try again.");
+	}
 
-	// Add level button
-	$('#addLevel').click(function(){
-		let nestCol = getRadioVal('nestCol');
-		let el = document.createElement('li');
-		el.className = "el-item";
-		el.setAttribute('data-value', nestCol);
-		el.innerHTML = nestCol + '<i class="js-remove">✖</i>';
-		editableList.el.appendChild(el);
-	});
+	$("#spinner").hide();
+}
 
 
-	// Update Preview Button
-	$('#updatePreview').click(function(){
-		// Load the data
-		let CSVData = $('#CSVinput').val();
+function processData(data, url) {
+	return new Promise((resolve, reject) => {
+		$.ajax({
+		  	type: "POST",
+		  	url: url,
+		  	data: {data: data},
+			dataType: "text",
+			success: (response) => {
+                resolve(response);
+	        },
+			error: (response) => {
+				reject(response);
+			}
+		})
+	})
+}
 
-		// Get the parameters
-		let url = getParams(preview=true, stage="output");
 
-		// Update Preview Window
-		let postTo = "#preview"
-		processData(CSVData, url, postTo);
+function generateDownload(JSONData){
+	const data = "text/json;charset=utf-8," + encodeURIComponent(JSONData);
+	const button = document.getElementById('downloadButton');
+	button.href = 'data:' + data;
+	button.download = 'data.json';
+}
 
-	});
 
-	// Get Final Output Button
-	$('#convertData').click(function(){
-		// Load the data
-		let CSVData = $('#CSVinput').val();
+function updateSeparator(CSVData) {
+	const separatorProvided = $("#csvSep").val() != "";
+	if (!separatorProvided) {
+		const separatorChar = detectSeparator(CSVData);
+		$("#csvSep").val(separatorChar);
+	}
+}
 
-		// Get the parameters
-		let url = getParams(preview=false, stage="output");
 
-		// Output Data to Final window
-		let postTo = "#finalOutput"
-		processData(CSVData, url, postTo);
-
-	});
-
-});
-
-/*-------------------------------------
-Autodetect Separator
--------------------------------------*/
-function detectSep(data) {
+function detectSeparator(data) {
 	// Extract first row of data
 	let rows = data.split(/\n|\r/);
 	let firstRow = rows[0];
@@ -128,19 +82,12 @@ function detectSep(data) {
 	        maxChar = char;
 	    };
 	};
-
-	// Append value to field
-	$("#csvSep").val(maxChar);
+	return maxChar;
 }
 
-/*-------------------------------------
-Get selected value from specified radio button
--------------------------------------*/
+
 function getRadioVal(form) {
-
     let val;
-
-    // get list of radio buttons with specified name
     let listItems = document.getElementById(form);
 	let radios = listItems.getElementsByTagName('input');
 
@@ -155,16 +102,11 @@ function getRadioVal(form) {
     return val; // return value of checked radio or undefined if none checked
 }
 
-/*-------------------------------------
-Get parameters from the HTML form
--------------------------------------*/
-function getParams(preview, stage) {
 
+function generateParameterizedUrl(readParams, preview) {
 	let file_or_input = "input";
 	let csvSep = $('#csvSep').val();
 	let headerSel = getRadioVal('headerSel');
-
-	// Handle tab separated data
 	if(csvSep =="\t"){
 		csvSep = "tab";
 	}
@@ -173,8 +115,7 @@ function getParams(preview, stage) {
 	let allFields = [csvSep, headerSel, preview, file_or_input];
 	let fieldLabels = ["csv_sep", "header_sel", "preview", "file_or_input"];
 
-	// Only get output parameters when doing update or final output
-	if(stage == 'output'){
+	if (readParams) {
 		let rootNode = $('#root-node').val();
         let nameKey = $('#name-key').val();
 		let childKey = $('#child-key').val();
@@ -210,8 +151,6 @@ function getParams(preview, stage) {
 			urlParams = urlParams + fieldLabels[i] + "=" + allFields[i] + "&";
 		}
 	}
-
-	// Remove final '&'
 	urlParams = urlParams.substring(0, urlParams.length - 1);
 
 	// Generate URL based on specified parameters
@@ -220,12 +159,8 @@ function getParams(preview, stage) {
 	return url;
 }
 
-/*-------------------------------------
-Populate Dropdown Boxes
--------------------------------------*/
-function populateDropdowns(data, button) {
 
-	// Get values
+function populateDropdowns(data, button) {
 	let headerSel = getRadioVal('headerSel');
 	let csvSep = $('#csvSep').val();
 	let rows = data.split(/\n|\r/);
@@ -279,8 +214,8 @@ function populateDropdowns(data, button) {
 	}
 }
 
-function resetFields(){
 
+function resetFields() {
     // Index dropdown
     $('#indexCol').empty();
     $('#indexBtn').text("None");
@@ -297,42 +232,4 @@ function resetFields(){
     $('#avgField').empty();
     $('#avgFieldBtn').text("None");
     $('#avgFieldName').val("");
-}
-
-/*-------------------------------------
-Process CSV data
--------------------------------------*/
-function processData(data, url, postTo) {
-	$(postTo).empty();
-
-	// Post data to API
-	dataJson = {data: data};
-	$.ajax({
-	  	type: "POST",
-	  	url: url,
-	  	data: dataJson,
-		dataType: "text",
-		success: function(result) {
-			// Parse json string
-			let json = JSON.parse(result);
-			$(postTo).append(JSON.stringify(json, null, 2));
-			if(postTo == "#finalOutput"){
-				generateDownload(JSON.stringify(json, null, 2));
-			}
-
-        },
-		error: function(msg){
-			$(postTo).append(msg);
-		}
-	});
-};
-
-/*-------------------------------------
-Dynamically generate JSON file for download
--------------------------------------*/
-function generateDownload(JSONData){
-	let data = "text/json;charset=utf-8," + encodeURIComponent(JSONData);
-	let button = document.getElementById('downloadButton');
-	button.href = 'data:' + data;
-	button.download = 'data.json';
 }

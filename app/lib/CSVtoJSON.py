@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
+import numpy as np
 import os
 from flask import request
 
@@ -118,6 +119,7 @@ class CSVtoJSON:
             input_data = StringIO(request.form['data'])
             self.data = pd.read_csv(input_data, header=self.header_sel, sep=self.csv_sep, index_col=None, encoding='utf-8')
 
+        self.data = self.data.replace({pd.NA: None, np.nan: None})
         # Apply filters
         if self.filter_col is not None and self.filter_val is not None:
             self.data = self.data.loc[self.data.loc[:, self.filter_col].astype(str) == str(self.filter_val), :]

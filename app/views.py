@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import json
-import simplejson
 from flask import Blueprint, jsonify, render_template, request
 import app.lib.CSVtoJSON as cj
 from app.lib.JSONtoCSV import json_to_csv
@@ -38,7 +37,7 @@ def output_data():
         data_req = cj.CSVtoJSON()
         data_req.load_data()
         array = data_req.generate_array()
-        return simplejson.dumps(array, ignore_nan=True)
+        return json.dumps(array, allow_nan=False, ensure_ascii=False)
     except:
         return "{\"Error\": \"Data could not be returned. Please check options and try again.\"}"
 

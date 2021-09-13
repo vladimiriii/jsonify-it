@@ -1,0 +1,16 @@
+---
+version: '3.8'
+services:
+    jsonify:
+        container_name: jsonify
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/jsonify/
+        ports:
+            - '5000:5000'
+        environment:
+            FLASK_APP: 'app.py'
+        
+

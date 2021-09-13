@@ -7,4 +7,5 @@ source $currentDir/$virtualenvPath
 
 echo "Installing requirements..."
 pip3 install -r requirements.txt
+sed -r 's/SERVER_PORT =/SERVER_PORT = 5000/' config-template.cfg > config.cfg
 echo "Installation complete."
